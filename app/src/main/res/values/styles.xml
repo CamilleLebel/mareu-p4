@@ -1,0 +1,43 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- Title Item of RecyclerView style. -->
+    <style name="TitleItem" parent="@style/TextAppearance.AppCompat">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_item</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- Sub Title Item of RecyclerView style. -->
+    <style name="SubTitleItem" parent="@style/TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/text_size_sub_item</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- Basic Button style. -->
+    <style name="BasicButton" parent="@style/TextAppearance.AppCompat">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <!-- Spinner style. -->
+    <style name="Spinner" parent="@style/TextAppearance.AppCompat">
+        <item name="android:background">@drawable/spinner</item>
+        <item name="android:backgroundTint">@color/colorAccent</item>
+        <item name="android:padding">@dimen/padding_little</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:elevation">@dimen/elevation_fab</item>
+    </style>
+
+</resources>

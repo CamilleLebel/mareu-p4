@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Ma Réu</string>
+
+    <string name="text_topic_hour_room">Meeting A - 15h00 - Mario</string>
+    <string name="text_participant_mail">perso@outlook.fr</string>
+
+    <!-- JAVA file -->
+
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- MeetingFragment.java -->
+    <string name="information_delete_meeting">Delete of meeting: %s</string>
+
+    <!-- MainActivity.java -->
+    <string name="none_of_choice_validated">None of choice validated</string>
+    <string name="information_creation_of_meeting">Creation of meeting: %s</string>
+
+    <!-- CreationActivity.java -->
+    <string name="creation_of_meeting">Creation of meeting</string>
+    <string name="question_for_creation_of_meeting">Are you sure to create this meeting?\n(%s)</string>
+    <string name="error_topic_meeting_creation">Error: No topic</string>
+    <string name="error_member_meeting_creation">Error: No member</string>
+
+    <string name="hour_of_meeting">Hour:</string>
+    <string name="room_of_meeting">Room:</string>
+    <string name="topic_of_meeting">Topic:</string>
+    <string name="member">Member:</string>
+    <string name="name_text_input_edit_text">Name</string>
+    <string name="error_text_input_layout">Field cannot be empty</string>
+
+    <!-- FilterActivity.java -->
+    <string name="creation_of_hours_filter">Creation of hours filter</string>
+    <string name="question_for_creation_of_hours_filter">Are you sure to create this filter?\n(From %s to %s)</string>
+    <string name="creation_of_room_filter">Creation of room filter</string>
+    <string name="question_for_creation_of_room_filter">Are you sure to create this filter?\n(%s)</string>
+    <string name="initial_hour_of_text_view">08:00</string>
+    <string name="CreationActivityName">Creation</string>
+    <string name="first_and_last_names">Camille Lebel</string>
+</resources>

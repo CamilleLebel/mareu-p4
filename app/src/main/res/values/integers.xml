@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- activity_main.xml (w600dp) -->
+    <integer name="value_1_percentage_horizontal_activity_main">50</integer>
+    <integer name="value_2_percentage_horizontal_activity_main">50</integer>
+
+    <!-- fragment_creation.xml -->
+    <integer name="value_1_percentage_horizontal_creation">20</integer>
+    <integer name="value_2_percentage_horizontal_creation">80</integer>
+    <integer name="value_1_percentage_horizontal_landscape">50</integer>
+    <integer name="value_2_percentage_horizontal_landscape">50</integer>
+
+    <!-- separator.xml -->
+    <integer name="angle_orientation_separator">90</integer>
+
+    <!-- identifier for show error message in CreatorOfMeeting.java -->
+    <integer name="identifier_sw600dp">600</integer>
+
+</resources>

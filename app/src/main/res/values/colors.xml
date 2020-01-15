@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <!-- Member color -->
+    <color name="colorMember">#8ECFC9</color>
+    <color name="strokeColorMember">#A8A6A6</color>
+
+    <!-- Room color -->
+    <color name="colorRoom1">#B092C0</color>
+    <color name="colorRoom2">#7BA39D</color>
+    <color name="colorRoom3">#BBAB94</color>
+    <color name="colorRoom4">#7EC550</color>
+    <color name="colorRoom5">#B4761D</color>
+    <color name="colorRoom6">#BD254F</color>
+    <color name="colorRoom7">#3266C4</color>
+    <color name="colorRoom8">#FFFFFF</color>
+    <color name="colorRoom9">#5F5A59</color>
+    <color name="colorRoom10">#37854A</color>
+
+</resources>
