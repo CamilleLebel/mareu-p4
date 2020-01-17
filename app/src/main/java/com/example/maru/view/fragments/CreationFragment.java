@@ -83,19 +83,9 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mSharedViewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
-        mSharedViewModel.getTextTime().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                mHours.setText(s);
-            }
-        });
+        mSharedViewModel.getTextTime().observe(getViewLifecycleOwner(), s -> mHours.setText(s));
         mMemberViewModel = ViewModelProviders.of(getActivity()).get(MemberViewModel.class);
-        mMemberViewModel.getMembers().observe(getViewLifecycleOwner(), new Observer<List<Member>>() {
-            @Override
-            public void onChanged(List<Member> members) {
-                mAdapter.updateData(members);
-            }
-        });
+        mMemberViewModel.getMembers().observe(getViewLifecycleOwner(), members -> mAdapter.updateData(members));
     }
 
     // INTERFACE FRAGMENT VIEW *********************************************************************

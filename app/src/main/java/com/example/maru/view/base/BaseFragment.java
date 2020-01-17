@@ -16,6 +16,7 @@ import com.example.maru.repository.MeetingRepository;
 import com.example.maru.view.View.FragmentView;
 import com.example.maru.viewModels.MeetingViewModel;
 import com.example.maru.viewModels.MemberViewModel;
+import com.example.maru.viewModels.SharedViewModel;
 
 import butterknife.ButterKnife;
 
@@ -36,15 +37,18 @@ public abstract class BaseFragment extends Fragment implements FragmentView {
     protected FragmentListener mCallback;
     protected MeetingViewModel mMeetingViewModel;
     protected MemberViewModel mMemberViewModel;
+    private SharedViewModel mSharedViewModel;
 
 
     // CONSTRUCTORS --------------------------------------------------------------------------------
 
-    public BaseFragment() {}
+    public BaseFragment() {
+    }
 
     // METHODS -------------------------------------------------------------------------------------
 
     protected abstract int getFragmentLayout();
+
     protected abstract void configureDesign();
 
     // FRAGMENT ************************************************************************************
@@ -76,23 +80,25 @@ public abstract class BaseFragment extends Fragment implements FragmentView {
     // INTERFACE FRAGMENT VIEW *********************************************************************
 
     @Override
-    public void updateRecyclerView(boolean isFilter) {}
+    public void updateRecyclerView(boolean isFilter) {
+    }
 
     @Override
-    public void setTextById(int id, String time) {}
+    public void setTextById(int id, String time) {
+    }
 
     // CALLBACK OF ACTIVITY ************************************************************************
 
     /**
      * Configures {@link FragmentListener}(callbacks) to the parent activity
+     *
      * @param context a {@link Context} which contains the {@link Fragment}
      */
     private void configureCallbackToParentActivity(Context context) {
         // Initializes the callback field
         try {
             this.mCallback = (FragmentListener) context;
-        }
-        catch (ClassCastException e){
+        } catch (ClassCastException e) {
             throw new ClassCastException(e.toString() + " must implement FragmentListener");
         }
     }
@@ -105,5 +111,6 @@ public abstract class BaseFragment extends Fragment implements FragmentView {
     private void configureViewModel() {
         this.mMeetingViewModel = new MeetingViewModel();
         this.mMemberViewModel = new MemberViewModel();
+        this.mSharedViewModel = new SharedViewModel();
     }
 }

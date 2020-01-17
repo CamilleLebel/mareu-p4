@@ -22,6 +22,7 @@ import com.example.maru.utils.TimeTools;
 import com.example.maru.view.adapters.MeetingAdapter;
 import com.example.maru.view.base.BaseActivity;
 import com.example.maru.view.base.BaseFragment;
+import com.example.maru.view.dialogFragment.DeleteMeetingFragment;
 import com.example.maru.view.dialogFragment.TimePickerFragmentListener;
 import com.example.maru.view.fragments.CreationFragment;
 import com.example.maru.view.fragments.MeetingFragment;
@@ -32,7 +33,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity implements BaseFragment.FragmentListener, TimePickerFragmentListener {
+public class MainActivity extends BaseActivity implements BaseFragment.FragmentListener, TimePickerFragmentListener, DeleteMeetingFragment.DeleteMeetingDialogListener {
 
     // FIELDS --------------------------------------------------------------------------------------
 
@@ -108,6 +109,13 @@ public class MainActivity extends BaseActivity implements BaseFragment.FragmentL
         else {
             this.mMeetingFragment.updateRecyclerView(false);
         }
+    }
+
+    // INTERFACE OF FRAGMENT DIALOG LISTENER *******************************************************
+
+    @Override
+    public void onYesClicked(Meeting meeting) {
+        this.mMeetingFragment.onYesClicked(meeting);
     }
 
     // INTERFACE OF ON TIME PICKER FRAGMENT LISTENER ***********************************************

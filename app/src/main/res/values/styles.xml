@@ -13,6 +13,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!-- Basic Text style. -->
+    <style name="BasicText" parent="@style/TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/text_size_basic_text</item>
+    </style>
+
     <!-- Title Item of RecyclerView style. -->
     <style name="TitleItem" parent="@style/TextAppearance.AppCompat">
         <item name="android:textStyle">bold</item>

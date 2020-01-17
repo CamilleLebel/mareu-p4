@@ -13,6 +13,9 @@
     <!-- MeetingFragment.java -->
     <string name="information_delete_meeting">Delete of meeting: %s</string>
 
+    <!-- fragment_meeting.xml -->
+    <string name="no_data">No data</string>
+
     <!-- MainActivity.java -->
     <string name="none_of_choice_validated">None of choice validated</string>
     <string name="information_creation_of_meeting">Creation of meeting: %s</string>

@@ -1,7 +1,10 @@
 package com.example.maru.view.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -14,10 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.maru.R;
 import com.example.maru.models.Meeting;
+import com.example.maru.models.Member;
 import com.example.maru.utils.ShowMessage;
 import com.example.maru.view.adapters.MeetingAdapter;
 import com.example.maru.view.base.BaseFragment;
+import com.example.maru.view.dialogFragment.DeleteMeetingFragment;
 import com.example.maru.viewModels.MeetingViewModel;
+import com.example.maru.viewModels.SharedViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -25,7 +31,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MeetingFragment extends BaseFragment implements MeetingAdapter.MeetingAdapterListener {
+public class MeetingFragment extends BaseFragment implements MeetingAdapter.MeetingAdapterListener, DeleteMeetingFragment.DeleteMeetingDialogListener {
 
     // FIELDS --------------------------------------------------------------------------------------
 
@@ -37,6 +43,8 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
     FloatingActionButton mAddFab;
     @BindView(R.id.fragment_meeting_fab_filter)
     FloatingActionButton mFilterFab;
+    @BindView(R.id.fragment_meeting_tv_no_data)
+    TextView mTextForNoData;
 
     private MeetingAdapter mAdapter;
     private boolean mIsFilter;
@@ -99,16 +107,25 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
 
     @Override
     public void onClickDeleteButton(int position) {
-        final String message = getString(R.string.information_delete_meeting, this.mAdapter.getMeeting(position).getTopic());
-        this.configureAndShowErrorMessage(message);
-
-        this.mMeetingViewModel.deleteMeeting(this.mAdapter.getMeeting(position), this.mIsFilter);
-        updateRecyclerView(this.mIsFilter);
+        Meeting meeting = mAdapter.getMeeting(position);
+        DeleteMeetingFragment deleteMeetingFragment = new DeleteMeetingFragment(meeting);
+        deleteMeetingFragment.show(getFragmentManager(), "Delete Dialog");
     }
 
     @Override
     public void EmptyList(boolean isEmpty) {
-//        this.mTextForNoData.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        this.mTextForNoData.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+    }
+
+    // INTERFACE DELETE FRAGMENT DIALOG ************************************************************
+
+    @Override
+    public void onYesClicked(Meeting meeting) {
+        final String message = getString(R.string.information_delete_meeting, meeting.getTopic());
+        configureAndShowErrorMessage(message);
+
+        mMeetingViewModel.deleteMeeting(meeting, mIsFilter);
+        updateRecyclerView(mIsFilter);
     }
 
     // ACTIONS *************************************************************************************

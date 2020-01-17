@@ -50,14 +50,14 @@ class MeetingViewHolder extends RecyclerView.ViewHolder {
 
     // METHODS -------------------------------------------------------------------------------------
 
-    public static int getLayout(){
+    public static int getLayout() {
         return R.layout.item_meeting;
     }
 
     // ACTIONS *************************************************************************************
 
     @OnClick(R.id.item_meeting_iv_delete)
-    public void onDeleteButtonClicked(){
+    public void onDeleteButtonClicked() {
         MeetingAdapter.MeetingAdapterListener callback = this.mListenerWeakReference.get();
 
         if (callback != null) {
@@ -134,8 +134,8 @@ class MeetingViewHolder extends RecyclerView.ViewHolder {
 
         // TEXT VIEW
         final String topicHourRoom = meeting.getTopic() + " - " +
-                                     meeting.getHour()  + " - " +
-                                     meeting.getRoom();
+                meeting.getHour() + " - " +
+                meeting.getRoom();
 
         this.mTopicHourRoom.setText(topicHourRoom);
 

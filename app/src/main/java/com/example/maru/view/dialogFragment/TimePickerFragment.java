@@ -2,6 +2,7 @@ package com.example.maru.view.dialogFragment;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
@@ -40,12 +41,28 @@ public class TimePickerFragment extends BaseDialogFragment implements TimePicker
         return new TimePickerDialog(getContext(), this, hourOfDay, minute, DateFormat.is24HourFormat(getContext()));
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        // Configures the callback to the parent activity
+        this.configureCallbackToParentActivity(context);
+    }
+
+    @Override
+    public void onDetach() {
+        // To prevent memory leaks
+        this.mTimePickerFragmentListener = null;
+
+        super.onDetach();
+    }
+
 
     // INTERFACE OF ON TIME SET LISTENER ***********************************************************
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        this.mListener.onTimeSet(this.mId, view, hourOfDay, minute);
+        this.mTimePickerFragmentListener.onTimeSet(this.mId, view, hourOfDay, minute);
     }
 
     // INSTANCES ***********************************************************************************
@@ -70,4 +87,16 @@ public class TimePickerFragment extends BaseDialogFragment implements TimePicker
         this.mId = getArguments().getInt(BUNDLE_KEY_ID, 0);
     }
 
+
+    // CALLBACK OF ACTIVITY ************************************************************************
+
+    private void configureCallbackToParentActivity(Context context) {
+        // Initializes the callback field
+        try {
+            this.mTimePickerFragmentListener = (TimePickerFragmentListener) context;
+        }
+        catch (ClassCastException e){
+            throw new ClassCastException(e.toString() + " must implement TimePickerFragmentListener");
+        }
+    }
 }

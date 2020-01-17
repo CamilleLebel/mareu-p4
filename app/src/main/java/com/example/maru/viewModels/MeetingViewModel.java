@@ -31,11 +31,11 @@ public class MeetingViewModel extends ViewModel {
 
     public MeetingViewModel(){
         mService = DI.getApiService();
+        mMeetingRepository = DI.createMeetingRepository();
     }
 
 
     public LiveData<List<Meeting>> getMeetings() {
-        mMeetingRepository = new MeetingRepository(mService);
         if (mMeetings == null) {
             mMeetings = new MutableLiveData<>();
             mMeetings.setValue(mMeetingRepository.getMeetings());
@@ -44,7 +44,6 @@ public class MeetingViewModel extends ViewModel {
     }
 
     public void deleteMeeting(Meeting meeting, Boolean isFilter) {
-        mMeetingRepository = new MeetingRepository(mService);
 
         if (isFilter) {
             mFilteredMeetings.remove(meeting);
@@ -55,7 +54,6 @@ public class MeetingViewModel extends ViewModel {
     }
 
     public String addMeeting(String topic, String hour, String room, String member) {
-        mMeetingRepository = new MeetingRepository(mService);
         Meeting meeting = new Meeting(this.mMeetingRepository.getMeetings().size() + 1,
                 topic,
                 hour,
@@ -68,7 +66,6 @@ public class MeetingViewModel extends ViewModel {
     }
 
     public List<String> getRoomsName() {
-        mMeetingRepository = new MeetingRepository(mService);
         List<String> nameOfRooms = new ArrayList<>();
 
         for (Room room : mMeetingRepository.getRooms()) {

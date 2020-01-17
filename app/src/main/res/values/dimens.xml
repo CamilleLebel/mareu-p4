@@ -7,6 +7,7 @@
     <dimen name="size_image_view">50dp</dimen>
 
     <dimen name="text_size_item">18sp</dimen>
+    <dimen name="text_size_basic_text">18sp</dimen>
     <dimen name="text_size_sub_item">14sp</dimen>
 
     <!-- PADDING -->

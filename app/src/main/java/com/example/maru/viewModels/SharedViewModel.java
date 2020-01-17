@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.maru.models.Meeting;
+
 
 public class SharedViewModel extends ViewModel {
 
@@ -15,6 +17,16 @@ public class SharedViewModel extends ViewModel {
 
     public LiveData<String> getTextTime() {
         return textTime;
+    }
+
+    private MutableLiveData<Meeting> mMeeting = new MutableLiveData<>();
+
+    public void setMeeting(Meeting meeting) {
+        mMeeting.setValue(meeting);
+    }
+
+    public LiveData<Meeting> getMeeting() {
+        return mMeeting;
     }
 
 }
