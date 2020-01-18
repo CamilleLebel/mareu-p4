@@ -19,21 +19,21 @@ import com.example.maru.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 public class MeetingViewModel extends ViewModel {
 
     private MeetingRepository mMeetingRepository;
+    private Executor mExecutor;
 
     private MutableLiveData<List<Meeting>> mMeetings;
-    private ApiService mService;
 
     private static List<Meeting> mFilteredMeetings = new ArrayList<>();
 
-    public MeetingViewModel(){
-        mService = DI.getApiService();
-        mMeetingRepository = DI.createMeetingRepository();
+    public MeetingViewModel(MeetingRepository meetingRepository, Executor executor){
+        this.mMeetingRepository = meetingRepository;
+        this.mExecutor = executor;
     }
-
 
     public LiveData<List<Meeting>> getMeetings() {
         if (mMeetings == null) {
@@ -48,9 +48,7 @@ public class MeetingViewModel extends ViewModel {
         if (isFilter) {
             mFilteredMeetings.remove(meeting);
         }
-
-        mMeetingRepository.deleteMeeting(meeting);
-
+        mExecutor.execute(() -> mMeetingRepository.deleteMeeting(meeting));
     }
 
     public String addMeeting(String topic, String hour, String room, String member) {
@@ -60,19 +58,8 @@ public class MeetingViewModel extends ViewModel {
                 room,
                 member);
 
-        mMeetingRepository.addMeeting(meeting);
+        mExecutor.execute(() -> mMeetingRepository.addMeeting(meeting));
 
         return topic;
     }
-
-    public List<String> getRoomsName() {
-        List<String> nameOfRooms = new ArrayList<>();
-
-        for (Room room : mMeetingRepository.getRooms()) {
-            nameOfRooms.add(room.getName());
-        }
-
-        return nameOfRooms;
-    }
-
 }

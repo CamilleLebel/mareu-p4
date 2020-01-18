@@ -1,6 +1,5 @@
 package com.example.maru.view.fragments;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,37 +7,36 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.maru.R;
-import com.example.maru.models.Meeting;
+import com.example.maru.di.DI;
+import com.example.maru.di.ViewModelFactory;
 import com.example.maru.models.Member;
 import com.example.maru.utils.ShowMessage;
 import com.example.maru.view.adapters.MemberAdapter;
 import com.example.maru.view.base.BaseFragment;
+import com.example.maru.view.dialogFragment.AddMeetingFragment;
 import com.example.maru.view.dialogFragment.TimePickerFragment;
 import com.example.maru.viewModels.MeetingViewModel;
 import com.example.maru.viewModels.MemberViewModel;
+import com.example.maru.viewModels.RoomViewModel;
 import com.example.maru.viewModels.SharedViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class CreationFragment extends BaseFragment implements MemberAdapter.MemberAdapterListener {
+public class CreationFragment extends BaseFragment implements MemberAdapter.MemberAdapterListener, AddMeetingFragment.AddMeetingDialogListener {
 
     // FIELDS --------------------------------------------------------------------------------------
 
@@ -58,6 +56,8 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
     private MemberAdapter mAdapter;
 
     private SharedViewModel mSharedViewModel;
+    private RoomViewModel mRoomViewModel;
+
 
     public final int ID_SEARCH_HOUR = 1;
 
@@ -74,6 +74,7 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
 
     @Override
     protected void configureDesign() {
+        this.configureViewModel();
         this.configureEditTextFromTextInputLayout();
         this.configureRoomSpinner();
         this.configureRecyclerView();
@@ -82,10 +83,9 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mSharedViewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
+
+        // Observe the hour button text
         mSharedViewModel.getTextTime().observe(getViewLifecycleOwner(), s -> mHours.setText(s));
-        mMemberViewModel = ViewModelProviders.of(getActivity()).get(MemberViewModel.class);
-        mMemberViewModel.getMembers().observe(getViewLifecycleOwner(), members -> mAdapter.updateData(members));
     }
 
     // INTERFACE FRAGMENT VIEW *********************************************************************
@@ -103,13 +103,40 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
 
     @Override
     public void onClickCheckBox(int position) {
+        Member member = mAdapter.getMember(position);
+        LiveData<List<Member>> selectedMembers = mMemberViewModel.getSelectedLDMembers();
+        final Observer<List<Member>> selectedMembersObserver = members -> {
+            if (member.isSelected()) {
+                mMemberViewModel.deleteFromSelectedMembers(member);
+            } else {
+                mMemberViewModel.addToSelectedMembers(member);
+            }
+        };
+        selectedMembers.observe(getViewLifecycleOwner(), selectedMembersObserver);
+    }
 
+    // INTERFACE FRAGMENT DIALOG *******************************************************************
 
-//        this.mMemberViewModel.AddOrDeleteSelectedMember(this.mAdapter.getMember(position));
+    @Override
+    public void onYesAddClicked() {
 
-        this.mMemberViewModel.addOrDeleteSelectedMember(this.mAdapter.getMember(position));
+        final String topic = this.mMeetingViewModel.addMeeting(
+                this.mTextInputTopic.getEditText().getText().toString(),
+                this.mHours.getText().toString(),
+                (String) this.mRoomSpinner.getSelectedItem(),
+                this.mMemberViewModel.getSelectedMembersToString());
+        this.mCallback.onClickFromFragment(topic);
 
+        //RESET THE LIST OF SELECTED MEMBERS
 
+        mMemberViewModel.deleteAllSelectedMember();
+        LiveData<List<Member>> selectedMembers = mMemberViewModel.getSelectedLDMembers();
+        if (selectedMembers.hasActiveObservers()) {
+            selectedMembers.removeObservers(getViewLifecycleOwner());
+            mMemberViewModel.resetSelectedMembers();
+        } else {
+            mMemberViewModel.resetSelectedMembers();
+        }
     }
 
     // ACTIONS *************************************************************************************
@@ -128,11 +155,12 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
             this.configureAndShowErrorMessage(getString(R.string.error_topic_meeting_creation));
         }
         // RECYCLER VIEW: No selected member
-        else if (this.mMemberViewModel.getSelectedMembers().size() == 0) {
+        else if (this.mMemberViewModel.getSelectedLDMembers().getValue().size() == 0) {
             this.configureAndShowErrorMessage(getString(R.string.error_member_meeting_creation));
         }
         else {
-            this.configureAndShowAlertDialog();
+            AddMeetingFragment addMeetingFragment = new AddMeetingFragment();
+            addMeetingFragment.show(getActivity().getSupportFragmentManager(), "Add Dialog");
         }
     }
 
@@ -148,7 +176,7 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
         // Adapter
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
                                                             android.R.layout.simple_spinner_item,
-                                                            this.mMeetingViewModel.getRoomsName());
+                                                            this.mRoomViewModel.getRoomsName());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Spinner
@@ -163,15 +191,19 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
         this.mRecyclerView.setAdapter(this.mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        MemberViewModel model = ViewModelProviders.of(getActivity()).get(MemberViewModel.class);
-        LiveData<List<Member>> mMembers = model.getMembers();
-        mMembers.observe(getViewLifecycleOwner(), new Observer<List<Member>>() {
-            @Override
-            public void onChanged(List<Member> members) {
-                mAdapter.updateData(members);
-            }
-        });
+        LiveData<List<Member>> mMembers = mMemberViewModel.getMembers();
+        mMembers.observe(getViewLifecycleOwner(), members -> mAdapter.updateData(members));
+    }
 
+    private void configureViewModel(){
+        ViewModelFactory mViewModelFactory = DI.provideViewModelFactory(getActivity());
+
+        this.mMemberViewModel = ViewModelProviders.of(this, mViewModelFactory).get(MemberViewModel.class);
+        this.mRoomViewModel = ViewModelProviders.of(this, mViewModelFactory).get(RoomViewModel.class);
+        this.mSharedViewModel = ViewModelProviders.of(this, mViewModelFactory).get(SharedViewModel.class);
+        if (mMeetingViewModel == null) {
+            this.mMeetingViewModel = ViewModelProviders.of(getActivity(), mViewModelFactory).get(MeetingViewModel.class);
+        }
 
     }
 
@@ -195,32 +227,6 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
         });
         this.mTextInputTopic.setFocusableInTouchMode(true);
     }
-
-    // ALERT DIALOG ********************************************************************************
-
-    private void configureAndShowAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-        builder.setTitle(getString(R.string.creation_of_meeting))
-               .setMessage("Are you sure to create this meeting? " + this.mTextInputTopic.getEditText().getText().toString())
-               .setPositiveButton("Yes",
-                       (dialog, which) -> {
-                            final String topic = this.mMeetingViewModel.addMeeting(this.mTextInputTopic.getEditText().getText().toString(),
-                                                                                    this.mHours.getText().toString(),
-                                                                                    (String) this.mRoomSpinner.getSelectedItem(),
-                                                                                    this.mMemberViewModel.getSelectedMembersToString());
-                            this.mCallback.onClickFromFragment(topic);
-
-                            mMemberViewModel.deleteAllSelectedMember();
-                            mMemberViewModel.resetMembers();
-               })
-               .setNegativeButton("No",
-                       (dialog, which) -> {
-
-               });
-        builder.create().show();
-    }
-
 
     // ERROR MESSAGES ******************************************************************************
 

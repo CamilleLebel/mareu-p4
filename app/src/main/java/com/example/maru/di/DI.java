@@ -1,11 +1,16 @@
 package com.example.maru.di;
 
+import android.content.Context;
+
 import androidx.annotation.VisibleForTesting;
 
 import com.example.maru.repository.MeetingRepository;
 import com.example.maru.repository.MemberRepository;
 import com.example.maru.service.ApiService;
 import com.example.maru.service.DummyApiService;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public abstract class DI {
 
@@ -24,12 +29,21 @@ public abstract class DI {
         return mService;
     }
 
-    public static MeetingRepository createMeetingRepository() {
+    public static MeetingRepository createMeetingRepository(Context context) {
         return new MeetingRepository(new DummyApiService());
     }
 
-    public static MemberRepository createMemberRepository() {
+    public static MemberRepository createMemberRepository(Context context) {
         return new MemberRepository(new DummyApiService());
+    }
+
+    public static Executor provideExecutor(){ return Executors.newSingleThreadExecutor(); }
+
+    public static ViewModelFactory provideViewModelFactory(Context context) {
+        MeetingRepository meetingRepository = createMeetingRepository(context);
+        MemberRepository memberRepository = createMemberRepository(context);
+        Executor executor = provideExecutor();
+        return new ViewModelFactory(meetingRepository, memberRepository, executor);
     }
 
     /**

@@ -13,12 +13,13 @@ import com.example.maru.R;
 import com.example.maru.utils.TimeTools;
 import com.example.maru.view.base.BaseActivity;
 import com.example.maru.view.base.BaseFragment;
+import com.example.maru.view.dialogFragment.AddMeetingFragment;
 import com.example.maru.view.dialogFragment.TimePickerFragmentListener;
 import com.example.maru.view.fragments.CreationFragment;
 import com.example.maru.viewModels.SharedViewModel;
 
 
-public class CreationActivity extends BaseActivity implements BaseFragment.FragmentListener, TimePickerFragmentListener {
+public class CreationActivity extends BaseActivity implements BaseFragment.FragmentListener, TimePickerFragmentListener, AddMeetingFragment.AddMeetingDialogListener {
 
     // FIELDS --------------------------------------------------------------------------------------
 
@@ -55,6 +56,13 @@ public class CreationActivity extends BaseActivity implements BaseFragment.Fragm
         finish();
     }
 
+// INTERFACE OF ADD FRAGMENT DIALOG LISTENER *******************************************************
+
+    @Override
+    public void onYesAddClicked() {
+        this.mCreationFragment.onYesAddClicked();
+    }
+
     // INTERFACE OF ON TIME PICKER FRAGMENT LISTENER ***********************************************
 
     @Override
@@ -82,5 +90,4 @@ public class CreationActivity extends BaseActivity implements BaseFragment.Fragm
             this.addFragment(idOfFrameLayout, this.mCreationFragment);
         }
     }
-
 }

@@ -3,6 +3,7 @@ package com.example.maru.repository;
 import android.util.Log;
 
 import com.example.maru.di.DI;
+import com.example.maru.models.Meeting;
 import com.example.maru.models.Member;
 import com.example.maru.service.ApiService;
 
@@ -17,18 +18,40 @@ public class MemberRepository {
 
     public MemberRepository(ApiService service) {
         mApiService = DI.getApiService();
-        mMembers = mApiService.getMembers();
-        mSelectedMembers = new ArrayList<>();
+//        mMembers = mApiService.getMembers();
+
     }
 
     public List<Member> getMembers() {
-        return mMembers;
+        return mApiService.getMembers();
     }
 
     public List<Member> getSelectedMembers() {
-        return this.mSelectedMembers;
+        if (mSelectedMembers == null) {
+            return mSelectedMembers = new ArrayList<>();
+        } else {
+            return this.mSelectedMembers;
+        }
     }
 
+    public void addToSelectedMembers(Member member) {
+        if (mSelectedMembers.contains(member)){
+            return;
+        }
+        mSelectedMembers.add(member);
+        member.setSelected(true);
+        Log.i("DEBUG", "is selected " + member.getFirstName());
+    }
+
+    public void deleteFromSelectedMembers(Member member) {
+        mSelectedMembers.remove(member);
+        member.setSelected(false);
+        Log.i("DEBUG", "is not selected " + member.getFirstName());
+    }
+
+    public void resetSelectedMembers() {
+        mSelectedMembers = new ArrayList<>();
+    }
 
     public boolean AddOrDeleteSelectedMember(Member member) {
 
@@ -38,8 +61,7 @@ public class MemberRepository {
             Log.i("DEBUG", "is not selected " + member.getFirstName());
 
             return false;
-        }
-        else {
+        } else {
             this.mSelectedMembers.add(member);
             member.setSelected(true);
             Log.i("DEBUG", "is selected " + member.getFirstName());

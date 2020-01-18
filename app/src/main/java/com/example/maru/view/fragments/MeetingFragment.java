@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.maru.R;
+import com.example.maru.di.DI;
+import com.example.maru.di.ViewModelFactory;
 import com.example.maru.models.Meeting;
 import com.example.maru.models.Member;
 import com.example.maru.utils.ShowMessage;
@@ -23,6 +25,7 @@ import com.example.maru.view.adapters.MeetingAdapter;
 import com.example.maru.view.base.BaseFragment;
 import com.example.maru.view.dialogFragment.DeleteMeetingFragment;
 import com.example.maru.viewModels.MeetingViewModel;
+import com.example.maru.viewModels.MemberViewModel;
 import com.example.maru.viewModels.SharedViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -53,7 +56,8 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
 
     // CONSTRUCTORS --------------------------------------------------------------------------------
 
-    public MeetingFragment() {}
+    public MeetingFragment() {
+    }
 
     // METHODS -------------------------------------------------------------------------------------
 
@@ -64,9 +68,10 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
 
     @Override
     protected void configureDesign() {
+
+        this.configureViewModel();
         // Configures the RecyclerView
         this.configureRecyclerView();
-
         // Updates the list of the RecyclerView
         this.updateRecyclerView(false);
     }
@@ -74,8 +79,8 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        MeetingViewModel model = ViewModelProviders.of(getActivity()).get(MeetingViewModel.class);
-        mMeetings = model.getMeetings();
+
+        mMeetings = mMeetingViewModel.getMeetings();
         mMeetings.observe(getViewLifecycleOwner(), meetings -> mAdapter.updateData(meetings));
     }
 
@@ -87,8 +92,7 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
 //        this.mAdapter.updateData(isFilter ? this.mFragmentPresenter.getFilteredMeetings() :
 //                                            this.mFragmentPresenter.getMeetings());
 
-        MeetingViewModel model = ViewModelProviders.of(getActivity()).get(MeetingViewModel.class);
-        mMeetings = model.getMeetings();
+
         mMeetings.observe(getViewLifecycleOwner(), meetings -> mAdapter.updateData(meetings));
 
 //        // FILTER FAB
@@ -109,7 +113,7 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
     public void onClickDeleteButton(int position) {
         Meeting meeting = mAdapter.getMeeting(position);
         DeleteMeetingFragment deleteMeetingFragment = new DeleteMeetingFragment(meeting);
-        deleteMeetingFragment.show(getFragmentManager(), "Delete Dialog");
+        deleteMeetingFragment.show(getActivity().getSupportFragmentManager(), "Delete Dialog");
     }
 
     @Override
@@ -128,6 +132,11 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
         updateRecyclerView(mIsFilter);
     }
 
+    private void configureViewModel(){
+        ViewModelFactory mViewModelFactory = DI.provideViewModelFactory(getActivity());
+        this.mMeetingViewModel = ViewModelProviders.of(this, mViewModelFactory).get(MeetingViewModel.class);
+        this.mMeetingViewModel.getMeetings();
+    }
     // ACTIONS *************************************************************************************
 
     @OnClick({R.id.fragment_meeting_fab_add,
@@ -178,8 +187,7 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
         this.mRecyclerView.setAdapter(this.mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        MeetingViewModel model = ViewModelProviders.of(getActivity()).get(MeetingViewModel.class);
-        mMeetings = model.getMeetings();
+        this.mMeetings = mMeetingViewModel.getMeetings();
         mMeetings.observe(getViewLifecycleOwner(), meetings -> mAdapter.updateData(meetings));
     }
 

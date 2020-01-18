@@ -22,6 +22,7 @@ import com.example.maru.utils.TimeTools;
 import com.example.maru.view.adapters.MeetingAdapter;
 import com.example.maru.view.base.BaseActivity;
 import com.example.maru.view.base.BaseFragment;
+import com.example.maru.view.dialogFragment.AddMeetingFragment;
 import com.example.maru.view.dialogFragment.DeleteMeetingFragment;
 import com.example.maru.view.dialogFragment.TimePickerFragmentListener;
 import com.example.maru.view.fragments.CreationFragment;
@@ -33,7 +34,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity implements BaseFragment.FragmentListener, TimePickerFragmentListener, DeleteMeetingFragment.DeleteMeetingDialogListener {
+public class MainActivity extends BaseActivity implements BaseFragment.FragmentListener, TimePickerFragmentListener, DeleteMeetingFragment.DeleteMeetingDialogListener, AddMeetingFragment.AddMeetingDialogListener {
 
     // FIELDS --------------------------------------------------------------------------------------
 
@@ -44,8 +45,6 @@ public class MainActivity extends BaseActivity implements BaseFragment.FragmentL
 
     private MeetingFragment mMeetingFragment;
     private CreationFragment mCreationFragment;
-
-    private SharedViewModel mSharedViewModel;
 
     public static final int REQUEST_CODE_CREATION_ACTIVITY = 100;
 
@@ -116,6 +115,13 @@ public class MainActivity extends BaseActivity implements BaseFragment.FragmentL
     @Override
     public void onYesClicked(Meeting meeting) {
         this.mMeetingFragment.onYesClicked(meeting);
+    }
+
+    // INTERFACE OF ADD FRAGMENT DIALOG LISTENER ***************************************************
+
+    @Override
+    public void onYesAddClicked() {
+        this.mCreationFragment.onYesAddClicked();
     }
 
     // INTERFACE OF ON TIME PICKER FRAGMENT LISTENER ***********************************************

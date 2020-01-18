@@ -8,31 +8,30 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.maru.R;
 import com.example.maru.models.Meeting;
 import com.example.maru.view.base.BaseDialogFragment;
 import com.google.gson.Gson;
 
-
-public class DeleteMeetingFragment extends BaseDialogFragment {
-
+public class AddMeetingFragment extends BaseDialogFragment {
     // INTERFACE -----------------------------------------------------------------------------------
 
-    public interface DeleteMeetingDialogListener {
-        void onYesClicked(Meeting meeting);
+    public interface AddMeetingDialogListener {
+        void onYesAddClicked();
     }
 
     // FIELDS --------------------------------------------------------------------------------------
 
-    private DeleteMeetingDialogListener listener;
+    private AddMeetingDialogListener listener;
     private Meeting mMeeting;
 
-    public static final String MEETING_TO_DELETE = "meeting_to_delete";
+    private static final String MEETING_TO_ADD = "meeting_to_add";
     // CONSTRUCTORS --------------------------------------------------------------------------------
 
-    public DeleteMeetingFragment(Meeting meeting) {
+    public AddMeetingFragment(Meeting meeting){
         this.mMeeting = meeting;
     }
-    public DeleteMeetingFragment() {
+    public AddMeetingFragment() {
     }
 
     // METHODS -------------------------------------------------------------------------------------
@@ -40,15 +39,14 @@ public class DeleteMeetingFragment extends BaseDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-
         if (savedInstanceState != null) {
-            String json = savedInstanceState.getString(MEETING_TO_DELETE);
+            String json = savedInstanceState.getString(MEETING_TO_ADD);
             if(!json.isEmpty()) {
                 Gson gson = new Gson();
                 this.mMeeting = gson.fromJson(json, Meeting.class);
             }
         }
-        return configureAlertDialog(mMeeting).create();
+        return configureAlertDialog().create();
     }
 
     @Override
@@ -56,7 +54,7 @@ public class DeleteMeetingFragment extends BaseDialogFragment {
         super.onSaveInstanceState(outState);
         Gson gson = new Gson();
         String json= gson.toJson(mMeeting);
-        outState.putString(MEETING_TO_DELETE, json);
+        outState.putString(MEETING_TO_ADD, json);
     }
 
     @Override
@@ -64,7 +62,7 @@ public class DeleteMeetingFragment extends BaseDialogFragment {
         super.onAttach(context);
 
         try {
-            listener = (DeleteMeetingDialogListener) context;
+            listener = (AddMeetingDialogListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + "must implement DeleteMeetingDialogListener");
@@ -74,17 +72,17 @@ public class DeleteMeetingFragment extends BaseDialogFragment {
     @Override
     public void onDetach() {
         // To prevent memory leaks
-        this.mDeleteMeetingDialogListener = null;
+        this.mAddMeetingDialogListener = null;
 
         super.onDetach();
     }
 
-    private AlertDialog.Builder configureAlertDialog(Meeting meeting) {
+    private AlertDialog.Builder configureAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Warning !")
-                .setMessage("Do you want to delete this Meeting: " + meeting.getTopic() + " ?")
+        builder.setTitle(R.string.creation_of_meeting)
+                .setMessage("Do you want to create this Meeting ?")
                 .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
-                .setPositiveButton("Yes", (dialog, which) -> listener.onYesClicked(meeting));
+                .setPositiveButton("Yes", (dialog, which) -> listener.onYesAddClicked());
         return builder;
     }
 }

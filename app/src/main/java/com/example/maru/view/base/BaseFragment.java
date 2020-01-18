@@ -11,9 +11,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProviders;
 
+import com.example.maru.di.DI;
+import com.example.maru.di.ViewModelFactory;
 import com.example.maru.repository.MeetingRepository;
 import com.example.maru.view.View.FragmentView;
+import com.example.maru.view.fragments.CreationFragment;
 import com.example.maru.viewModels.MeetingViewModel;
 import com.example.maru.viewModels.MemberViewModel;
 import com.example.maru.viewModels.SharedViewModel;
@@ -37,7 +41,6 @@ public abstract class BaseFragment extends Fragment implements FragmentView {
     protected FragmentListener mCallback;
     protected MeetingViewModel mMeetingViewModel;
     protected MemberViewModel mMemberViewModel;
-    private SharedViewModel mSharedViewModel;
 
 
     // CONSTRUCTORS --------------------------------------------------------------------------------
@@ -70,7 +73,6 @@ public abstract class BaseFragment extends Fragment implements FragmentView {
 
         ButterKnife.bind(this, view);
 
-        this.configureViewModel();
 
         this.configureDesign();
 
@@ -105,12 +107,4 @@ public abstract class BaseFragment extends Fragment implements FragmentView {
 
     // VIEWMODEL ***********************************************************************************
 
-    /**
-     * Configures the ViewModel
-     */
-    private void configureViewModel() {
-        this.mMeetingViewModel = new MeetingViewModel();
-        this.mMemberViewModel = new MemberViewModel();
-        this.mSharedViewModel = new SharedViewModel();
-    }
 }
