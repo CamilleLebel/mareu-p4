@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TimePicker;
 
 import com.example.maru.R;
@@ -47,6 +49,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.FragmentL
     private CreationFragment mCreationFragment;
 
     public static final int REQUEST_CODE_CREATION_ACTIVITY = 100;
+    public static final int REQUEST_CODE_FILTER_ACTIVITY = 200;
 
     // METHODS -------------------------------------------------------------------------------------
 
@@ -73,6 +76,40 @@ public class MainActivity extends BaseActivity implements BaseFragment.FragmentL
     // ACTIVITY ************************************************************************************
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Creates a MenuInflater to add the menu xml file to this activity
+        getMenuInflater().inflate(R.menu.menu_activity_main, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Depending on the item Id
+        switch (item.getItemId()) {
+            case R.id.menu_activity_main_filter_date: {
+                // Bundle
+                Bundle args = new Bundle();
+                args.putInt(FilterActivity.BUNDLE_EXTRA_FILTER_TYPE, FilterActivity.HOUR_FILTER);
+
+                this.startAnotherActivityForResult(this, FilterActivity.class, args, REQUEST_CODE_FILTER_ACTIVITY);
+                return true;
+            }
+            case R.id.menu_activity_main_filter_room: {
+                // Bundle
+                Bundle args = new Bundle();
+                args.putInt(FilterActivity.BUNDLE_EXTRA_FILTER_TYPE, FilterActivity.ROOM_FILTER);
+
+                this.startAnotherActivityForResult(this, FilterActivity.class, args, REQUEST_CODE_FILTER_ACTIVITY);
+                return true;
+            }
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -81,8 +118,9 @@ public class MainActivity extends BaseActivity implements BaseFragment.FragmentL
             this.mMeetingFragment.updateRecyclerView(false);
         }
         // FILTER ACTIVITY
-
-
+        if (requestCode == REQUEST_CODE_FILTER_ACTIVITY && resultCode == RESULT_OK) {
+            this.mMeetingFragment.updateRecyclerView(true);
+        }
     }
 
     @Override
@@ -130,8 +168,12 @@ public class MainActivity extends BaseActivity implements BaseFragment.FragmentL
     public void onTimeSet(int id, TimePicker view, int hourOfDay, int minute) {
         final String time;
         try {
-            time = TimeTools.convertHourAndMinuteToString(hourOfDay, minute);
-            this.mCreationFragment.setTextById(id, time);
+            int hourInSecond = hourOfDay * 3600;
+            int minuteInSecond = minute * 60;
+            int timeInSecond = hourInSecond + minuteInSecond;
+            time = String.valueOf(timeInSecond);
+//            time = TimeTools.convertHourAndMinuteToString(hourOfDay, minute);
+            this.mCreationFragment.setTextById(id, timeInSecond);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -156,8 +198,6 @@ public class MainActivity extends BaseActivity implements BaseFragment.FragmentL
         }
     }
 
-
-
     private void configureAndShowSecondFragment(final int idOfFrameLayout) {
         // Creates a Fragment [FragmentManager -> Fragment]
         this.mCreationFragment = (CreationFragment) getSupportFragmentManager().findFragmentById(idOfFrameLayout);
@@ -170,5 +210,4 @@ public class MainActivity extends BaseActivity implements BaseFragment.FragmentL
             this.addFragment(idOfFrameLayout, this.mCreationFragment);
         }
     }
-
 }

@@ -20,6 +20,6 @@ public interface View {
          * @param id an integer that contains the id value
          * @param time a {@link String} that contains the hour in hh:mm format
          */
-        void setTextById(int id, String time);
+        void setTextById(int id, int time);
     }
 }

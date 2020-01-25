@@ -2,10 +2,10 @@ package com.example.maru.di;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.maru.repository.MeetingRepository;
 import com.example.maru.repository.MemberRepository;
+import com.example.maru.viewModels.DialogViewModel;
 import com.example.maru.viewModels.MeetingViewModel;
 import com.example.maru.viewModels.MemberViewModel;
 import com.example.maru.viewModels.RoomViewModel;
@@ -38,6 +38,9 @@ public class ViewModelFactory implements ViewModelProvider.Factory
         }
         if (modelClass.isAssignableFrom(SharedViewModel.class)) {
             return (T) new SharedViewModel();
+        }
+        if (modelClass.isAssignableFrom(DialogViewModel.class)) {
+            return (T) new DialogViewModel();
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

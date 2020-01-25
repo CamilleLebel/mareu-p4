@@ -14,6 +14,7 @@ public class MeetingRepository {
 
     private ApiService mApiService;
     private List<Meeting> mMeetings;
+    private List<Meeting> mFilteredMeetings;
 
 
     public MeetingRepository(ApiService service) {
@@ -22,7 +23,7 @@ public class MeetingRepository {
     }
 
     public List<Meeting> getMeetings() {
-        return mApiService.getMeetings();
+        return mMeetings;
     }
 
     public void deleteMeeting(Meeting meeting) {
@@ -33,17 +34,30 @@ public class MeetingRepository {
         mApiService.addMeeting(meeting);
     }
 
-    public List<String> getRoomsName() {
-        List<String> nameOfRooms = new ArrayList<>();
-
-        for (Room room : this.mApiService.getRooms()) {
-            nameOfRooms.add(room.getName());
-        }
-
-        return nameOfRooms;
-    }
-
     public List<Room> getRooms() {
         return this.mApiService.getRooms();
+    }
+
+    public List<Meeting> getFilteredMeetings() {
+        if (mFilteredMeetings == null) {
+            mFilteredMeetings = new ArrayList<>();
+        }
+        return mFilteredMeetings;
+    }
+
+    public List<Meeting> filterPerRoom(String roomName) {
+        List<Meeting> filteredMeetings = new ArrayList<>();
+
+        for (Meeting meeting : this.mApiService.getMeetings()) {
+            if (meeting.getRoom().equals(roomName)) {
+                if (mFilteredMeetings == null) {
+                    mFilteredMeetings = new ArrayList<>();
+                }
+                filteredMeetings.add(meeting);
+                mFilteredMeetings = filteredMeetings;
+            }
+        }
+
+        return filteredMeetings;
     }
 }

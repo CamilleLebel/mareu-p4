@@ -4,29 +4,30 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.maru.models.Meeting;
 
 
 public class SharedViewModel extends ViewModel {
 
-    private MutableLiveData<String> textTime = new MutableLiveData<>();
+    private MutableLiveData<Integer> timeLiveData = new MutableLiveData<>();
 
-    public void setTextTime(String time) {
-        textTime.setValue(time);
+    public void setTimeLiveData(int time) {
+        timeLiveData.setValue(time);
     }
 
-    public LiveData<String> getTextTime() {
-        return textTime;
+    public LiveData<Integer> getTimeLiveData() {
+        return timeLiveData;
     }
 
-    private MutableLiveData<Meeting> mMeeting = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isFilter = new MutableLiveData<>();
 
-    public void setMeeting(Meeting meeting) {
-        mMeeting.setValue(meeting);
+    public void setIsFilter (Boolean aBoolean) {
+        isFilter.setValue(aBoolean);
     }
 
-    public LiveData<Meeting> getMeeting() {
-        return mMeeting;
+    public LiveData<Boolean> getIsFilter() {
+        if (isFilter == null) {
+            isFilter = new MutableLiveData<>();
+        }
+        return isFilter;
     }
-
 }

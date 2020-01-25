@@ -35,4 +35,16 @@ public abstract class TimeTools {
                 TimeTools.SEPARATOR        +
                 ((minute < 10) ? "0" : "") + minute;
     }
+
+    public static String convertSecondToString(int time) {
+        int hour = time / 3600;
+        int minute = (time % 3600) / 60;
+        String convertedString = ((hour < 10) ? "0" : "") + hour +
+                TimeTools.SEPARATOR +
+                ((minute < 10) ? "0" : "") + minute;
+
+        return ((hour < 10) ? "0" : "") + hour +
+                TimeTools.SEPARATOR     +
+                ((minute < 10) ? "0" : "") + minute;
+    }
 }

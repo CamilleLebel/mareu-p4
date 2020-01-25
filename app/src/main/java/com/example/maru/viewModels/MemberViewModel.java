@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.maru.models.Member;
 import com.example.maru.repository.MemberRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -77,11 +78,15 @@ public class MemberViewModel extends ViewModel {
     // TURN TO FALSE PREVIOUS SELECTED MEMBERS
 
     public void deleteAllSelectedMember() {
+
+        mMemberRepository.resetSelectedMembers();
+        mSelectedMembers = new ArrayList<>();
         mSelectedMembers = mMemberRepository.getSelectedMembers();
 
         for (Member member : mSelectedMembers) {
             member.setSelected(false);
         }
+        mSelectedLDMembers.setValue(mSelectedMembers);
     }
 
     // GET THE SELECTED MEMBERS STRING

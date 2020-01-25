@@ -18,8 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.maru.R;
 import com.example.maru.di.DI;
 import com.example.maru.di.ViewModelFactory;
+import com.example.maru.models.Meeting;
 import com.example.maru.models.Member;
 import com.example.maru.utils.ShowMessage;
+import com.example.maru.utils.TimeTools;
 import com.example.maru.view.adapters.MemberAdapter;
 import com.example.maru.view.base.BaseFragment;
 import com.example.maru.view.dialogFragment.AddMeetingFragment;
@@ -59,6 +61,7 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
     private RoomViewModel mRoomViewModel;
 
 
+    public  int mHourInSecond;
     public final int ID_SEARCH_HOUR = 1;
 
     // CONSTRUCTORS --------------------------------------------------------------------------------
@@ -85,17 +88,25 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
         super.onActivityCreated(savedInstanceState);
 
         // Observe the hour button text
-        mSharedViewModel.getTextTime().observe(getViewLifecycleOwner(), s -> mHours.setText(s));
+
+        mSharedViewModel.getTimeLiveData().observe(getViewLifecycleOwner(), integer -> {
+            mHourInSecond = integer;
+            String timeString = TimeTools.convertSecondToString(mHourInSecond);
+            mHours.setText(timeString);
+        });
     }
 
     // INTERFACE FRAGMENT VIEW *********************************************************************
 
     @Override
-    public void setTextById(int id, String time) {
+    public void setTextById(int id, int time) {
         if (id == ID_SEARCH_HOUR) {
 
-            this.mHours.setText(time);
-            this.mSharedViewModel.setTextTime(time);
+            mHourInSecond = time;
+            this.mSharedViewModel.setTimeLiveData(time);
+            //convert second to hh:mm
+            String timeString = TimeTools.convertSecondToString(mHourInSecond);
+            this.mHours.setText(timeString);
         }
     }
 
@@ -108,6 +119,7 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
         final Observer<List<Member>> selectedMembersObserver = members -> {
             if (member.isSelected()) {
                 mMemberViewModel.deleteFromSelectedMembers(member);
+                selectedMembers.removeObservers(getViewLifecycleOwner());
             } else {
                 mMemberViewModel.addToSelectedMembers(member);
             }
@@ -122,21 +134,18 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
 
         final String topic = this.mMeetingViewModel.addMeeting(
                 this.mTextInputTopic.getEditText().getText().toString(),
-                this.mHours.getText().toString(),
+                this.mHourInSecond,
                 (String) this.mRoomSpinner.getSelectedItem(),
                 this.mMemberViewModel.getSelectedMembersToString());
         this.mCallback.onClickFromFragment(topic);
 
-        //RESET THE LIST OF SELECTED MEMBERS
+        //RESET THE LIST OF SELECTED MEMBERS AND TIME BUTTON VIEW
 
-        mMemberViewModel.deleteAllSelectedMember();
         LiveData<List<Member>> selectedMembers = mMemberViewModel.getSelectedLDMembers();
-        if (selectedMembers.hasActiveObservers()) {
-            selectedMembers.removeObservers(getViewLifecycleOwner());
-            mMemberViewModel.resetSelectedMembers();
-        } else {
-            mMemberViewModel.resetSelectedMembers();
-        }
+        selectedMembers.removeObservers(getViewLifecycleOwner());
+        mMemberViewModel.deleteAllSelectedMember();
+
+        mAdapter.notifyDataSetChanged();
     }
 
     // ACTIONS *************************************************************************************
@@ -149,19 +158,52 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
     @OnClick(R.id.fragment_creation_fab)
     public void onFABClicked() {
 
+        if (checkForCreateMeeting()) {
+            Meeting meeting = new Meeting(mMeetingViewModel.getMeetings().getValue().size() + 1,
+                    mTextInputTopic.getEditText().getText().toString(),
+                    mHourInSecond,
+                    (String) mRoomSpinner.getSelectedItem(),
+                    mMemberViewModel.getSelectedMembersToString());
+
+            AddMeetingFragment.newInstance(meeting).show(getActivity().getSupportFragmentManager(), "ADD MEETING");
+        }
+    }
+
+    private boolean checkForCreateMeeting() {
+        List<Member> selectedMembers = this.mMemberViewModel.getSelectedLDMembers().getValue();
+
+        int id = mMeetingViewModel.getMeetings().getValue().size() + 1;
+        String topic = this.mTextInputTopic.getEditText().getText().toString();
+        int hour = mHourInSecond;
+        String room = mRoomSpinner.getSelectedItem().toString();
+        String selectedMembersString = mMemberViewModel.getSelectedLDMembers().toString();
+        Meeting meetingToAdd = new Meeting(id, topic, hour, room, selectedMembersString);
+
         // TEXT INPUT EDIT TEXT: Empty
-        if (this.mTextInputTopic.getEditText().getText().toString().equals("")) {
+        if (topic.equals("")) {
             this.mTextInputTopic.setError(getString(R.string.error_text_input_layout));
             this.configureAndShowErrorMessage(getString(R.string.error_topic_meeting_creation));
+            return false;
         }
         // RECYCLER VIEW: No selected member
-        else if (this.mMemberViewModel.getSelectedLDMembers().getValue().size() == 0) {
+        else if (selectedMembers == null || selectedMembers.size() == 0 || mMemberViewModel.getSelectedLDMembers() == null) {
             this.configureAndShowErrorMessage(getString(R.string.error_member_meeting_creation));
+            return false;
         }
-        else {
-            AddMeetingFragment addMeetingFragment = new AddMeetingFragment();
-            addMeetingFragment.show(getActivity().getSupportFragmentManager(), "Add Dialog");
+        for (Meeting meeting : mMeetingViewModel.getMeetings().getValue()) {
+            if (meeting.getRoom().equals(meetingToAdd.getRoom())) {
+                if (meeting.getHour() == meetingToAdd.getHour()) {
+                    this.configureAndShowErrorMessage("Error: Meeting in the same room and at the same hour already exist");
+                    return false;
+                }
+                // Meeting in the same room exist AND will we be not over
+                else if ((meeting.getHour() < meetingToAdd.getHour() && meetingToAdd.getHour() < meeting.getHour() + 2700)) {
+                    this.configureAndShowErrorMessage("Error: Room is already taken. A meeting usually lasts 45 minutes");
+                    return false;
+                }
+            }
         }
+        return true;
     }
 
     // INSTANCES ***********************************************************************************
@@ -213,7 +255,6 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
         this.mTextInputTopic.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -229,7 +270,6 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
     }
 
     // ERROR MESSAGES ******************************************************************************
-
     /**
      * Configures and show the error message
      */

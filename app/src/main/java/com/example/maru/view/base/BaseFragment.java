@@ -18,6 +18,7 @@ import com.example.maru.di.ViewModelFactory;
 import com.example.maru.repository.MeetingRepository;
 import com.example.maru.view.View.FragmentView;
 import com.example.maru.view.fragments.CreationFragment;
+import com.example.maru.viewModels.DialogViewModel;
 import com.example.maru.viewModels.MeetingViewModel;
 import com.example.maru.viewModels.MemberViewModel;
 import com.example.maru.viewModels.SharedViewModel;
@@ -41,6 +42,8 @@ public abstract class BaseFragment extends Fragment implements FragmentView {
     protected FragmentListener mCallback;
     protected MeetingViewModel mMeetingViewModel;
     protected MemberViewModel mMemberViewModel;
+    protected DialogViewModel mDialogViewModel;
+    protected SharedViewModel mSharedViewModel;
 
 
     // CONSTRUCTORS --------------------------------------------------------------------------------
@@ -86,7 +89,7 @@ public abstract class BaseFragment extends Fragment implements FragmentView {
     }
 
     @Override
-    public void setTextById(int id, String time) {
+    public void setTextById(int id, int time) {
     }
 
     // CALLBACK OF ACTIVITY ************************************************************************

@@ -7,10 +7,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.example.maru.models.Meeting;
 import com.example.maru.view.base.BaseDialogFragment;
-import com.google.gson.Gson;
 
 
 public class DeleteMeetingFragment extends BaseDialogFragment {
@@ -24,14 +22,9 @@ public class DeleteMeetingFragment extends BaseDialogFragment {
     // FIELDS --------------------------------------------------------------------------------------
 
     private DeleteMeetingDialogListener listener;
-    private Meeting mMeeting;
 
-    public static final String MEETING_TO_DELETE = "meeting_to_delete";
     // CONSTRUCTORS --------------------------------------------------------------------------------
 
-    public DeleteMeetingFragment(Meeting meeting) {
-        this.mMeeting = meeting;
-    }
     public DeleteMeetingFragment() {
     }
 
@@ -41,22 +34,9 @@ public class DeleteMeetingFragment extends BaseDialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
-        if (savedInstanceState != null) {
-            String json = savedInstanceState.getString(MEETING_TO_DELETE);
-            if(!json.isEmpty()) {
-                Gson gson = new Gson();
-                this.mMeeting = gson.fromJson(json, Meeting.class);
-            }
-        }
-        return configureAlertDialog(mMeeting).create();
-    }
+        Meeting meeting = getArguments().getParcelable("meeting_to_del");
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Gson gson = new Gson();
-        String json= gson.toJson(mMeeting);
-        outState.putString(MEETING_TO_DELETE, json);
+        return configureAlertDialog(meeting).create();
     }
 
     @Override
@@ -79,7 +59,17 @@ public class DeleteMeetingFragment extends BaseDialogFragment {
         super.onDetach();
     }
 
+    public static DeleteMeetingFragment newInstance(Meeting meeting) {
+        DeleteMeetingFragment fragment = new DeleteMeetingFragment();
+
+        Bundle args = new Bundle();
+        args.putParcelable("meeting_to_del", meeting);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     private AlertDialog.Builder configureAlertDialog(Meeting meeting) {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Warning !")
                 .setMessage("Do you want to delete this Meeting: " + meeting.getTopic() + " ?")

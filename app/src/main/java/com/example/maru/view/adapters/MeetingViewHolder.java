@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.maru.R;
 import com.example.maru.models.Meeting;
+import com.example.maru.utils.TimeTools;
 
 import java.lang.ref.WeakReference;
 import java.util.Random;
@@ -132,9 +133,11 @@ class MeetingViewHolder extends RecyclerView.ViewHolder {
             }
         }
 
+        String hourString = TimeTools.convertSecondToString(meeting.getHour());
+
         // TEXT VIEW
         final String topicHourRoom = meeting.getTopic() + " - " +
-                meeting.getHour() + " - " +
+                hourString + " - " +
                 meeting.getRoom();
 
         this.mTopicHourRoom.setText(topicHourRoom);

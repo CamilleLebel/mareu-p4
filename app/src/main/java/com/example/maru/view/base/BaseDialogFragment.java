@@ -1,12 +1,11 @@
 package com.example.maru.view.base;
 
-import android.content.Context;
-
 import androidx.fragment.app.DialogFragment;
 
 import com.example.maru.view.dialogFragment.DeleteMeetingFragment.DeleteMeetingDialogListener;
 import com.example.maru.view.dialogFragment.TimePickerFragmentListener;
 
+import static com.example.maru.view.dialogFragment.AddRoomFilterFragment.*;
 import static com.example.maru.view.dialogFragment.AddMeetingFragment.*;
 
 public abstract class BaseDialogFragment extends DialogFragment {
@@ -16,6 +15,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
     protected TimePickerFragmentListener mTimePickerFragmentListener;
     protected DeleteMeetingDialogListener mDeleteMeetingDialogListener;
     protected AddMeetingDialogListener mAddMeetingDialogListener;
+    protected AddRoomFilterDialogListener mAddRoomFilterDialogListener;
 
     // CONSTRUCTORS --------------------------------------------------------------------------------
 

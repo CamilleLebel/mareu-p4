@@ -8,24 +8,23 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.maru.R;
-import com.example.maru.models.Meeting;
 import com.example.maru.view.base.BaseDialogFragment;
 
-public class AddMeetingFragment extends BaseDialogFragment {
+public class AddRoomFilterFragment extends BaseDialogFragment {
+
     // INTERFACE -----------------------------------------------------------------------------------
 
-    public interface AddMeetingDialogListener {
-        void onYesAddClicked();
+    public interface AddRoomFilterDialogListener {
+        void onYesClicked(String roomName);
     }
 
     // FIELDS --------------------------------------------------------------------------------------
 
-    private AddMeetingDialogListener listener;
+    private AddRoomFilterDialogListener listener;
 
     // CONSTRUCTORS --------------------------------------------------------------------------------
 
-    public AddMeetingFragment() {
+    public AddRoomFilterFragment() {
     }
 
     // METHODS -------------------------------------------------------------------------------------
@@ -34,9 +33,9 @@ public class AddMeetingFragment extends BaseDialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
-        Meeting meeting = getArguments().getParcelable("meeting_to_add");
+        String roomName = getArguments().getString("room_name_filter");
 
-        return configureAlertDialog(meeting).create();
+        return configureAlertDialog(roomName).create();
     }
 
     @Override
@@ -44,36 +43,37 @@ public class AddMeetingFragment extends BaseDialogFragment {
         super.onAttach(context);
 
         try {
-            listener = (AddMeetingDialogListener) context;
+            listener = (AddRoomFilterDialogListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + "must implement DeleteMeetingDialogListener");
+                    + "must implement AddRoomFilterDialogListener");
         }
     }
 
     @Override
     public void onDetach() {
         // To prevent memory leaks
-        this.mAddMeetingDialogListener = null;
+        this.mAddRoomFilterDialogListener = null;
 
         super.onDetach();
     }
 
-    public static AddMeetingFragment newInstance(Meeting meeting) {
-        AddMeetingFragment fragment = new AddMeetingFragment();
+    public static AddRoomFilterFragment newInstance(String roomName) {
+        AddRoomFilterFragment fragment = new AddRoomFilterFragment();
 
         Bundle args = new Bundle();
-        args.putParcelable("meeting_to_add", meeting);
+        args.putString("room_name_filter", roomName);
         fragment.setArguments(args);
         return fragment;
     }
 
-    private AlertDialog.Builder configureAlertDialog(Meeting meeting) {
+    private AlertDialog.Builder configureAlertDialog(String roomName) {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(R.string.creation_of_meeting)
-                .setMessage("Do you want to create this Meeting: " + meeting.getTopic() + "?")
+        builder.setTitle("Creation of room filter")
+                .setMessage("Are you sure to create this filter: " + roomName + " ?")
                 .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
-                .setPositiveButton("Yes", (dialog, which) -> listener.onYesAddClicked());
+                .setPositiveButton("Yes", (dialog, which) -> listener.onYesClicked(roomName));
         return builder;
     }
 }

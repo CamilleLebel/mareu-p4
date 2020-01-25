@@ -38,7 +38,24 @@
     <string name="question_for_creation_of_hours_filter">Are you sure to create this filter?\n(From %s to %s)</string>
     <string name="creation_of_room_filter">Creation of room filter</string>
     <string name="question_for_creation_of_room_filter">Are you sure to create this filter?\n(%s)</string>
-    <string name="initial_hour_of_text_view">08:00</string>
+    <string name="initial_hour_of_text_view">00:00</string>
     <string name="CreationActivityName">Creation</string>
+    <string name="FilterActivityName">Filter</string>
     <string name="first_and_last_names">Camille Lebel</string>
+
+    <!-- menu_activity_main.xml -->
+    <string name="filter">Filter</string>
+    <string name="filter_hour">Filter per hour</string>
+    <string name="filter_room">Filter per room</string>
+
+    <!-- fragment_filter_hours.xml -->
+    <string name="select_a_range_of_hours">Select a range of hours:</string>
+    <string name="start_hour">Start:</string>
+    <string name="end_hour">End:</string>
+    <string name="final_hour_of_text_view">20:00</string>
+    <string name="filter_by_hours">FILTER BY HOURS</string>
+
+    <!-- fragment_filter_room.xml -->
+    <string name="select_a_room_for_the_filter">Select a room for the filter:</string>
+    <string name="filter_by_room">FILTER BY ROOM</string>
 </resources>

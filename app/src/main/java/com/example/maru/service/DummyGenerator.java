@@ -16,10 +16,10 @@ public abstract class DummyGenerator {
     // FIELDS --------------------------------------------------------------------------------------
 
     private static List<Meeting> dummyMeetings = Arrays.asList(
-            new Meeting(1, "Meeting A", "14:00", "Room 1", "maxime@lamzone.com"),
-            new Meeting(2, "Meeting B", "16:00", "Room 2", "paul@lamzone.com"),
-            new Meeting(3, "Meeting C", "19:00", "Room 3", "amandine@lamzone.com"),
-            new Meeting(4, "Meeting D", "20:30", "Room 4", "maxime@lamzone.com")
+            new Meeting(1, "Meeting A", 10000, "Room 1", "maxime@lamzone.com"),
+            new Meeting(2, "Meeting B", 52000, "Room 2", "paul@lamzone.com"),
+            new Meeting(3, "Meeting C", 42222, "Room 3", "amandine@lamzone.com"),
+            new Meeting(4, "Meeting D", 44444, "Room 4", "maxime@lamzone.com")
     );
 
     private static List<Room> dummyRooms = Arrays.asList(

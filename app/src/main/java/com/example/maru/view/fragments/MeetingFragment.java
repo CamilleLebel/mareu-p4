@@ -1,7 +1,5 @@
 package com.example.maru.view.fragments;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -9,7 +7,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,13 +16,12 @@ import com.example.maru.R;
 import com.example.maru.di.DI;
 import com.example.maru.di.ViewModelFactory;
 import com.example.maru.models.Meeting;
-import com.example.maru.models.Member;
 import com.example.maru.utils.ShowMessage;
 import com.example.maru.view.adapters.MeetingAdapter;
 import com.example.maru.view.base.BaseFragment;
 import com.example.maru.view.dialogFragment.DeleteMeetingFragment;
+import com.example.maru.viewModels.DialogViewModel;
 import com.example.maru.viewModels.MeetingViewModel;
-import com.example.maru.viewModels.MemberViewModel;
 import com.example.maru.viewModels.SharedViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -52,7 +48,6 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
     private MeetingAdapter mAdapter;
     private boolean mIsFilter;
 
-    private LiveData<List<Meeting>> mMeetings;
 
     // CONSTRUCTORS --------------------------------------------------------------------------------
 
@@ -69,41 +64,52 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
     @Override
     protected void configureDesign() {
 
+        //Configure ViewModels
         this.configureViewModel();
         // Configures the RecyclerView
         this.configureRecyclerView();
+        //Subscribe to View Model
+        this.subscribe();
         // Updates the list of the RecyclerView
-        this.updateRecyclerView(false);
+        this.updateRecyclerView(mIsFilter);
+
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
 
-        mMeetings = mMeetingViewModel.getMeetings();
-        mMeetings.observe(getViewLifecycleOwner(), meetings -> mAdapter.updateData(meetings));
-    }
-
-    // INTERFACE FRAGMENT VIEW *********************************************************************
+// INTERFACE FRAGMENT VIEW *********************************************************************
 
     @Override
     public void updateRecyclerView(boolean isFilter) {
-        // RECYCLER VIEW
-//        this.mAdapter.updateData(isFilter ? this.mFragmentPresenter.getFilteredMeetings() :
-//                                            this.mFragmentPresenter.getMeetings());
-
-
-        mMeetings.observe(getViewLifecycleOwner(), meetings -> mAdapter.updateData(meetings));
-
-//        // FILTER FAB
-        this.setVisibilityOfFilterFAB(isFilter);
 
         // FILTER
         this.mIsFilter = isFilter;
+
+        if (mIsFilter) {
+            this.mSharedViewModel.setIsFilter(true);
+        } else {
+            this.mSharedViewModel.setIsFilter(false);
+        }
+
+        // RECYCLER VIEW
+        this.mAdapter.updateData(isFilter ? this.mMeetingViewModel.getFilteredMeetings().getValue() :
+                                            this.mMeetingViewModel.getMeetings().getValue());
+
+        // FILTER FAB
+        this.setVisibilityOfFilterFAB(isFilter);
+
+    }
+
+    private void subscribe() {
+        final Observer<List<Meeting>> meetingsObserver = meetings -> mAdapter.updateData(meetings);
+        if (mIsFilter) {
+            mMeetingViewModel.getFilteredMeetings().observe(getViewLifecycleOwner(), meetingsObserver);
+        } else {
+            mMeetingViewModel.getMeetings().observe(getViewLifecycleOwner(), meetingsObserver);
+        }
     }
 
     @Override
-    public void setTextById(int id, String time) {
+    public void setTextById(int id, int time) {
 
     }
 
@@ -111,9 +117,8 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
 
     @Override
     public void onClickDeleteButton(int position) {
-        Meeting meeting = mAdapter.getMeeting(position);
-        DeleteMeetingFragment deleteMeetingFragment = new DeleteMeetingFragment(meeting);
-        deleteMeetingFragment.show(getActivity().getSupportFragmentManager(), "Delete Dialog");
+        Meeting meetingToDelete = mAdapter.getMeeting(position);
+        DeleteMeetingFragment.newInstance(meetingToDelete).show(getActivity().getSupportFragmentManager(), "MEETING DELETED");
     }
 
     @Override
@@ -127,15 +132,16 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
     public void onYesClicked(Meeting meeting) {
         final String message = getString(R.string.information_delete_meeting, meeting.getTopic());
         configureAndShowErrorMessage(message);
-
         mMeetingViewModel.deleteMeeting(meeting, mIsFilter);
         updateRecyclerView(mIsFilter);
     }
 
-    private void configureViewModel(){
+    private void configureViewModel() {
         ViewModelFactory mViewModelFactory = DI.provideViewModelFactory(getActivity());
         this.mMeetingViewModel = ViewModelProviders.of(this, mViewModelFactory).get(MeetingViewModel.class);
-        this.mMeetingViewModel.getMeetings();
+        this.mDialogViewModel = ViewModelProviders.of(this, mViewModelFactory).get(DialogViewModel.class);
+        this.mSharedViewModel = ViewModelProviders.of(this, mViewModelFactory).get(SharedViewModel.class);
+
     }
     // ACTIONS *************************************************************************************
 
@@ -148,8 +154,7 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
                 if (this.mIsFilter) {
                     // FILTER MODE
                     this.updateRecyclerView(false);
-                }
-                else {
+                } else {
                     // NORMAL MODE
                     this.mCallback.onClickFromFragment(null);
                 }
@@ -187,14 +192,16 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
         this.mRecyclerView.setAdapter(this.mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        this.mMeetings = mMeetingViewModel.getMeetings();
-        mMeetings.observe(getViewLifecycleOwner(), meetings -> mAdapter.updateData(meetings));
+        if (this.mSharedViewModel.getIsFilter().getValue() != null) {
+            this.mIsFilter = this.mSharedViewModel.getIsFilter().getValue();
+        }
     }
 
     // FLOATING ACTION BUTTON **********************************************************************
 
     /**
      * Sets the visibility of the Add {@link FloatingActionButton} thanks to the boolean in argument
+     *
      * @param isVisible a boolean
      */
     public void setVisibilityOfAddFAB(boolean isVisible) {
@@ -207,6 +214,7 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
 
     /**
      * Sets the visibility of the Filter {@link FloatingActionButton} thanks to the boolean in argument
+     *
      * @param isVisible a boolean
      */
     public void setVisibilityOfFilterFAB(boolean isVisible) {
@@ -231,5 +239,4 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
                     message);
         }
     }
-
 }

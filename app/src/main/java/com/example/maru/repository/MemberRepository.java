@@ -50,24 +50,10 @@ public class MemberRepository {
     }
 
     public void resetSelectedMembers() {
+        for (Member member : mSelectedMembers) {
+            member.setSelected(false);
+//            mSelectedMembers.remove(member);
+        }
         mSelectedMembers = new ArrayList<>();
     }
-
-    public boolean AddOrDeleteSelectedMember(Member member) {
-
-        if (member.isSelected()) {
-            this.mSelectedMembers.remove(member);
-            member.setSelected(false);
-            Log.i("DEBUG", "is not selected " + member.getFirstName());
-
-            return false;
-        } else {
-            this.mSelectedMembers.add(member);
-            member.setSelected(true);
-            Log.i("DEBUG", "is selected " + member.getFirstName());
-
-            return true;
-        }
-    }
-
 }

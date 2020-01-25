@@ -1,14 +1,17 @@
 package com.example.maru.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Objects;
 
-public class Meeting {
+public class Meeting implements Parcelable {
 
     // FIELDS --------------------------------------------------------------------------------------
 
     private int mId;
     private String mTopic;
-    private String mHour;
+    private int mHour;
     private String mRoom;
     private String mMember;
 
@@ -21,13 +24,33 @@ public class Meeting {
      * @param room room of the meeting
      * @param member members of the meeting
      */
-    public Meeting(int id, String topic, String hour, String room, String member) {
+    public Meeting(int id, String topic, int hour, String room, String member) {
         mId = id;
         mTopic = topic;
         mHour = hour;
         mRoom = room;
         mMember = member;
     }
+
+    protected Meeting(Parcel in) {
+        mId = in.readInt();
+        mTopic = in.readString();
+        mHour = in.readInt();
+        mRoom = in.readString();
+        mMember = in.readString();
+    }
+
+    public static final Creator<Meeting> CREATOR = new Creator<Meeting>() {
+        @Override
+        public Meeting createFromParcel(Parcel in) {
+            return new Meeting(in);
+        }
+
+        @Override
+        public Meeting[] newArray(int size) {
+            return new Meeting[size];
+        }
+    };
 
     public int getId() {
         return mId;
@@ -45,11 +68,11 @@ public class Meeting {
         mTopic = topic;
     }
 
-    public String getHour() {
+    public int getHour() {
         return mHour;
     }
 
-    public void setHour(String hour) {
+    public void setHour(int hour) {
         mHour = hour;
     }
 
@@ -84,5 +107,20 @@ public class Meeting {
     @Override
     public int hashCode() {
         return Objects.hash(mId, mTopic, mHour, mRoom, mMember);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeInt(mId);
+        dest.writeString(mTopic);
+        dest.writeInt(mHour);
+        dest.writeString(mRoom);
+        dest.writeString(mMember);
     }
 }
