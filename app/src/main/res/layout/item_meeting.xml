@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/circle"/>
+        android:background="@drawable/circle" />
 
     <!-- BLOC OF TEXT VIEW -->
 
@@ -37,7 +37,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/text_topic_hour_room"
-            style="@style/TitleItem"/>
+            style="@style/TitleItem" />
 
         <TextView
             android:id="@+id/item_meeting_tv_participants"
@@ -48,7 +48,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/text_participant_mail"
-            style="@style/SubTitleItem"/>
+            style="@style/SubTitleItem" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

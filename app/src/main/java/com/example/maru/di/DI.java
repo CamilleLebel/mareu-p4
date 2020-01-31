@@ -31,11 +31,11 @@ public abstract class DI {
     }
 
     public static MeetingRepository createMeetingRepository(Context context) {
-        return new MeetingRepository(new DummyApiService());
+        return new MeetingRepository(mService);
     }
 
     public static MemberRepository createMemberRepository(Context context) {
-        return new MemberRepository(new DummyApiService());
+        return new MemberRepository(mService);
     }
 
     public static Executor provideExecutor() {
@@ -58,5 +58,15 @@ public abstract class DI {
     @VisibleForTesting
     public static ApiService getNewInstanceApiService() {
         return new DummyApiService();
+    }
+
+    @VisibleForTesting
+    public static MemberRepository createNewMemberRepository() {
+        return new MemberRepository(new DummyApiService());
+    }
+
+    @VisibleForTesting
+    public static MeetingRepository createNewMeetingRepository() {
+        return new MeetingRepository(new DummyApiService());
     }
 }

@@ -17,7 +17,6 @@ import com.example.maru.utils.ShowMessage;
 import com.example.maru.view.adapters.MeetingAdapter;
 import com.example.maru.view.base.BaseFragment;
 import com.example.maru.view.dialogFragment.DeleteMeetingFragment;
-import com.example.maru.viewModels.DialogViewModel;
 import com.example.maru.viewModels.MeetingViewModel;
 import com.example.maru.viewModels.SharedViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -136,7 +135,6 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
     private void configureViewModel() {
         ViewModelFactory mViewModelFactory = DI.provideViewModelFactory(getActivity());
         this.mMeetingViewModel = ViewModelProviders.of(this, mViewModelFactory).get(MeetingViewModel.class);
-        this.mDialogViewModel = ViewModelProviders.of(this, mViewModelFactory).get(DialogViewModel.class);
         this.mSharedViewModel = ViewModelProviders.of(this, mViewModelFactory).get(SharedViewModel.class);
 
     }

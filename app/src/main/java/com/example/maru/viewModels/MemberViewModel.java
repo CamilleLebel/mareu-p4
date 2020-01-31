@@ -2,6 +2,7 @@ package com.example.maru.viewModels;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -55,55 +56,51 @@ public class MemberViewModel extends ViewModel {
             mSelectedMembers = mMemberRepository.getSelectedMembers();
         }
         mExecutor.execute(() -> mMemberRepository.addToSelectedMembers(member));
-        Log.i("DEBUG", "add from selected in ViewModel " + member.getFirstName());
     }
 
     // DELETE FROM SELECTED MEMBERS
 
     public void deleteFromSelectedMembers(Member member) {
         mExecutor.execute(() -> mMemberRepository.deleteFromSelectedMembers(member));
-        Log.i("DEBUG", "remove from selected in ViewModel " + member.getFirstName());
-    }
-
-    // RESET SELECTED MEMBERS
-
-    public void resetSelectedMembers() {
-        mMemberRepository.resetSelectedMembers();
-        mSelectedMembers = mMemberRepository.getSelectedMembers();
-
-        mSelectedLDMembers.setValue(mSelectedMembers);
-        mMembers.setValue(mMemberRepository.getMembers());
     }
 
     // TURN TO FALSE PREVIOUS SELECTED MEMBERS
 
     public void deleteAllSelectedMember() {
 
-        mMemberRepository.resetSelectedMembers();
+
         mSelectedMembers = new ArrayList<>();
         mSelectedMembers = mMemberRepository.getSelectedMembers();
+        mMemberRepository.resetSelectedMembers();
 
         for (Member member : mSelectedMembers) {
             member.setSelected(false);
         }
+
         mSelectedLDMembers.setValue(mSelectedMembers);
     }
 
     // GET THE SELECTED MEMBERS STRING
-
+    private StringBuilder sb;
     public String getSelectedMembersToString() {
-        StringBuilder sb = new StringBuilder();
 
-        int i = 0;
 
-        for (Member member : this.mSelectedMembers) {
-            sb.append(member.getEmail());
+        if (sb == null) {
+            sb = new StringBuilder();
+//            mSelectedMembers = mSelectedLDMembers.getValue();
 
-            if (++i != this.mSelectedMembers.size()) {
-                sb.append(", ");
+            int i = 0;
+
+            for (Member member : mSelectedMembers) {
+                sb.append(member.getEmail());
+
+                if (++i != this.mSelectedMembers.size()) {
+                    sb.append(", ");
+                }
             }
+            return sb.toString();
+        } else  {
+            return sb.toString();
         }
-
-        return sb.toString();
     }
 }

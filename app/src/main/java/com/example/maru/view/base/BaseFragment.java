@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.maru.view.View.FragmentView;
-import com.example.maru.viewModels.DialogViewModel;
 import com.example.maru.viewModels.MeetingViewModel;
 import com.example.maru.viewModels.MemberViewModel;
 import com.example.maru.viewModels.SharedViewModel;
@@ -35,7 +34,6 @@ public abstract class BaseFragment extends Fragment implements FragmentView {
     protected FragmentListener mCallback;
     protected MeetingViewModel mMeetingViewModel;
     protected MemberViewModel mMemberViewModel;
-    protected DialogViewModel mDialogViewModel;
     protected SharedViewModel mSharedViewModel;
 
 
