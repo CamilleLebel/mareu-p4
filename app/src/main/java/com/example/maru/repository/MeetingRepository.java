@@ -9,6 +9,7 @@ import com.example.maru.service.ApiService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MeetingRepository {
 
@@ -47,7 +48,7 @@ public class MeetingRepository {
 
     public List<Meeting> filterPerRoom(String roomName) {
         List<Meeting> filteredMeetings = new ArrayList<>();
-
+//        this.mApiService.getMeetings().stream().filter(meeting -> meeting.getRoom().equals(roomName)).collect(Collectors.toList())
         for (Meeting meeting : this.mApiService.getMeetings()) {
             if (meeting.getRoom().equals(roomName)) {
                 if (mFilteredMeetings == null) {
@@ -58,6 +59,20 @@ public class MeetingRepository {
             }
         }
 
+        return filteredMeetings;
+    }
+
+    public List<Meeting> filterPerHours(int minHour, int maxHour) {
+        List<Meeting> filteredMeetings = new ArrayList<>();
+        for (Meeting meeting : this.mApiService.getMeetings()) {
+            if (meeting.getHour() > minHour && meeting.getHour() < maxHour) {
+                if (mFilteredMeetings == null) {
+                    mFilteredMeetings = new ArrayList<>();
+                }
+                filteredMeetings.add(meeting);
+                mFilteredMeetings = filteredMeetings;
+            }
+        }
         return filteredMeetings;
     }
 }

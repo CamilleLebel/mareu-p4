@@ -13,7 +13,6 @@ public class SharedViewModel extends ViewModel {
     public void setTimeLiveData(int time) {
         timeLiveData.setValue(time);
     }
-
     public LiveData<Integer> getTimeLiveData() {
         return timeLiveData;
     }
@@ -23,11 +22,28 @@ public class SharedViewModel extends ViewModel {
     public void setIsFilter (Boolean aBoolean) {
         isFilter.setValue(aBoolean);
     }
-
     public LiveData<Boolean> getIsFilter() {
         if (isFilter == null) {
             isFilter = new MutableLiveData<>();
         }
         return isFilter;
+    }
+
+    private MutableLiveData<Integer> minTimeLiveData = new MutableLiveData<>();
+
+    public MutableLiveData<Integer> getMinTimeLiveData() {
+        return minTimeLiveData;
+    }
+    public void setMinTimeLiveData(int minTime) {
+        this.minTimeLiveData.setValue(minTime);
+    }
+
+    private MutableLiveData<Integer> maxTimeLiveData = new MutableLiveData<>();
+
+    public MutableLiveData<Integer> getMaxTimeLiveData() {
+        return maxTimeLiveData;
+    }
+    public void setMaxTimeLiveData(int maxTime) {
+        this.maxTimeLiveData.setValue(maxTime);
     }
 }

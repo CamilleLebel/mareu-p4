@@ -69,5 +69,14 @@ public class MeetingViewModel extends ViewModel {
 
         return mFilteredMeetings;
     }
+
+    public List<Meeting> filterPerHours(int minHour, int maxHour) {
+        List<Meeting> filterMeetings;
+
+        filterMeetings = mMeetingRepository.filterPerHours(minHour, maxHour);
+        mFilteredMeetings = filterMeetings;
+
+        return mFilteredMeetings;
+    }
 }
 

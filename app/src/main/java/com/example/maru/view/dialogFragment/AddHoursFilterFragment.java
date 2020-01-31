@@ -8,23 +8,25 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.maru.R;
+import com.example.maru.utils.TimeTools;
 import com.example.maru.view.base.BaseDialogFragment;
 
-public class AddRoomFilterFragment extends BaseDialogFragment {
+public class AddHoursFilterFragment extends BaseDialogFragment {
 
     // INTERFACE -----------------------------------------------------------------------------------
 
-    public interface AddRoomFilterDialogListener {
-        void onYesRoomClicked(String roomName);
+    public interface AddHoursFilterDialogListener {
+        void onYesHoursClicked(int minHour, int maxHour);
     }
 
     // FIELDS --------------------------------------------------------------------------------------
 
-    private AddRoomFilterDialogListener listener;
+    private AddHoursFilterFragment.AddHoursFilterDialogListener listener;
 
     // CONSTRUCTORS --------------------------------------------------------------------------------
 
-    public AddRoomFilterFragment() {
+    public AddHoursFilterFragment() {
     }
 
     // METHODS -------------------------------------------------------------------------------------
@@ -32,10 +34,10 @@ public class AddRoomFilterFragment extends BaseDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        int minHour = getArguments().getInt("minHour");
+        int maxHour = getArguments().getInt("maxHour");
 
-        String roomName = getArguments().getString("room_name_filter");
-
-        return configureAlertDialog(roomName).create();
+        return configureAlertDialog(minHour, maxHour).create();
     }
 
     @Override
@@ -43,7 +45,7 @@ public class AddRoomFilterFragment extends BaseDialogFragment {
         super.onAttach(context);
 
         try {
-            listener = (AddRoomFilterDialogListener) context;
+            listener = (AddHoursFilterFragment.AddHoursFilterDialogListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + "must implement AddRoomFilterDialogListener");
@@ -53,27 +55,32 @@ public class AddRoomFilterFragment extends BaseDialogFragment {
     @Override
     public void onDetach() {
         // To prevent memory leaks
-        this.mAddRoomFilterDialogListener = null;
+        this.mAddHoursFilterDialogListener = null;
 
         super.onDetach();
     }
 
-    public static AddRoomFilterFragment newInstance(String roomName) {
-        AddRoomFilterFragment fragment = new AddRoomFilterFragment();
+
+    public static AddHoursFilterFragment newInstance(int minHour, int maxHour) {
+        AddHoursFilterFragment fragment = new AddHoursFilterFragment();
 
         Bundle args = new Bundle();
-        args.putString("room_name_filter", roomName);
+        args.putInt("minHour", minHour);
+        args.putInt("maxHour", maxHour);
         fragment.setArguments(args);
         return fragment;
     }
 
-    private AlertDialog.Builder configureAlertDialog(String roomName) {
+    private AlertDialog.Builder configureAlertDialog(int minHour, int maxHour) {
+        String minHourString = TimeTools.convertSecondToString(minHour);
+        String maxHourString = TimeTools.convertSecondToString(maxHour);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Creation of room filter")
-                .setMessage("Are you sure to create this filter: " + roomName + " ?")
+        builder.setTitle(getString(R.string.creation_of_hours_filter))
+                .setMessage("Do you want to create this filter ? \n"
+                        +   minHourString + " to " + maxHourString)
                 .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
-                .setPositiveButton("Yes", (dialog, which) -> listener.onYesRoomClicked(roomName));
+                .setPositiveButton("Yes", (dialog, which) -> listener.onYesHoursClicked(minHour, maxHour));
         return builder;
     }
 }

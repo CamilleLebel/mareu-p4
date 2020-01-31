@@ -101,33 +101,8 @@ public class RoomFilterFragment extends BaseFragment implements AddRoomFilterFra
         return new RoomFilterFragment();
     }
 
-    // ALERT DIALOG ********************************************************************************
-
-    /**
-     * Configures and show the {@link AlertDialog}
-     */
-    private void configureAndShowAlertDialog() {
-        // Creates Alert Dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-        // Modifies the title
-        builder.setTitle(getString(R.string.creation_of_room_filter))
-                .setMessage(getString(R.string.question_for_creation_of_room_filter,
-                        this.getCurrentRoomOfSpinner()))
-                .setPositiveButton(getString(R.string.yes),
-                        (dialog, which) -> {
-                            this.mMeetingViewModel.filterPerRoom(this.getCurrentRoomOfSpinner());
-
-                            this.mCallback.onClickFromFragment(null);})
-                .setNegativeButton(getString(R.string.no),
-                        (dialog, which) -> {});
-
-        // Creates and shows the AlertDialog widget
-        builder.create().show();
-    }
-
     @Override
-    public void onYesClicked(String roomName) {
+    public void onYesRoomClicked(String roomName) {
         this.mMeetingViewModel.filterPerRoom(this.getCurrentRoomOfSpinner());
         this.mCallback.onClickFromFragment(null);
     }

@@ -8,18 +8,21 @@ import com.example.maru.R;
 import com.example.maru.utils.TimeTools;
 import com.example.maru.view.base.BaseActivity;
 import com.example.maru.view.base.BaseFragment;
+import com.example.maru.view.dialogFragment.AddHoursFilterFragment;
+import com.example.maru.view.dialogFragment.AddHoursFilterFragment.AddHoursFilterDialogListener;
 import com.example.maru.view.dialogFragment.AddRoomFilterFragment;
 import com.example.maru.view.dialogFragment.TimePickerFragmentListener;
+import com.example.maru.view.fragments.HoursFilterFragment;
 import com.example.maru.view.fragments.RoomFilterFragment;
 
 import static com.example.maru.view.dialogFragment.AddRoomFilterFragment.*;
 
-public class FilterActivity extends BaseActivity implements BaseFragment.FragmentListener, TimePickerFragmentListener, AddRoomFilterDialogListener {
+public class FilterActivity extends BaseActivity implements BaseFragment.FragmentListener, TimePickerFragmentListener, AddRoomFilterDialogListener, AddHoursFilterDialogListener {
 
     // FIELDS --------------------------------------------------------------------------------------
 
     private int mFilterType;
-//    private HoursFilterFragment mHoursFilterFragment;
+    private HoursFilterFragment mHoursFilterFragment;
     private RoomFilterFragment mRoomFilterFragment;
 
     public static final int HOUR_FILTER = 1;
@@ -66,17 +69,26 @@ public class FilterActivity extends BaseActivity implements BaseFragment.Fragmen
 
     @Override
     public void onTimeSet(int id, TimePicker view, int hourOfDay, int minute) {
-//        final String time;
-//        try {
+        final String time;
+        try {
+            int hourInSecond = hourOfDay * 3600;
+            int minuteInSecond = minute * 60;
+            int timeInSecond = hourInSecond + minuteInSecond;
 //            time = TimeTools.convertHourAndMinuteToString(hourOfDay, minute);
-//            this.mHoursFilterFragment.setTextById(id, time);
-//        } catch (Exception e) {
-//            e.printStackTrace();
+            this.mHoursFilterFragment.setTextById(id, timeInSecond);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void onYesClicked(String roomName) {
-        this.mRoomFilterFragment.onYesClicked(roomName);
+    public void onYesRoomClicked(String roomName) {
+        this.mRoomFilterFragment.onYesRoomClicked(roomName);
+    }
+
+    @Override
+    public void onYesHoursClicked(int minHour, int maxHour) {
+        this.mHoursFilterFragment.onYesHoursClicked(minHour, maxHour);
     }
 
     // INTENT **************************************************************************************
@@ -97,7 +109,7 @@ public class FilterActivity extends BaseActivity implements BaseFragment.Fragmen
     private void selectFragmentToDisplay(final int choice) {
         switch (choice) {
             case HOUR_FILTER: {
-//                this.configureAndShowHoursFilterFragment(R.id.activity_filter_frame_layout);
+                this.configureAndShowHoursFilterFragment(R.id.activity_filter_frame_layout);
                 break;
             }
             case ROOM_FILTER: {
@@ -125,20 +137,21 @@ public class FilterActivity extends BaseActivity implements BaseFragment.Fragmen
     }
 
 
-//    /**
-//     * Configures and shows the hours filter fragment (see {@link HoursFilterFragment}
-//     * @param idOfFrameLayout an integer that contains the id value
-//     */
-//    private void configureAndShowHoursFilterFragment(final int idOfFrameLayout) {
-//        // Creates a Fragment [FragmentManager -> Fragment]
-//        this.mHoursFilterFragment = (HoursFilterFragment) getSupportFragmentManager().findFragmentById(idOfFrameLayout);
-//
-//        // If the fragment is not displayed
-//        if (this.mHoursFilterFragment == null) {
-//            // Creates the main fragment
-//            this.mHoursFilterFragment = HoursFilterFragment.newInstance();
-//
-//            this.addFragment(idOfFrameLayout, this.mHoursFilterFragment);
-//        }
-//    }
+    /**
+     * Configures and shows the hours filter fragment (see {@link HoursFilterFragment}
+     * @param idOfFrameLayout an integer that contains the id value
+     */
+    private void configureAndShowHoursFilterFragment(final int idOfFrameLayout) {
+        // Creates a Fragment [FragmentManager -> Fragment]
+        this.mHoursFilterFragment = (HoursFilterFragment) getSupportFragmentManager().findFragmentById(idOfFrameLayout);
+
+        // If the fragment is not displayed
+        if (this.mHoursFilterFragment == null) {
+            // Creates the main fragment
+            this.mHoursFilterFragment = HoursFilterFragment.newInstance();
+
+            this.addFragment(idOfFrameLayout, this.mHoursFilterFragment);
+        }
+    }
+
 }
