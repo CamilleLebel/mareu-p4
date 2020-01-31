@@ -1,7 +1,5 @@
 package com.example.maru.repository;
 
-import androidx.lifecycle.LiveData;
-
 import com.example.maru.di.DI;
 import com.example.maru.models.Meeting;
 import com.example.maru.models.Room;
@@ -9,7 +7,6 @@ import com.example.maru.service.ApiService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MeetingRepository {
 

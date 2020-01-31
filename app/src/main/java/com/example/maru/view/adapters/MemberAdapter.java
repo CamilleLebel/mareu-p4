@@ -12,9 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.maru.models.Member;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MemberAdapter extends RecyclerView.Adapter<MemberViewHolder> {
 

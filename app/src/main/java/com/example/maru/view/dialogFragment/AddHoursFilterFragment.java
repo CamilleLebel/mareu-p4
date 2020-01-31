@@ -78,7 +78,7 @@ public class AddHoursFilterFragment extends BaseDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getString(R.string.creation_of_hours_filter))
                 .setMessage("Do you want to create this filter ? \n"
-                        +   minHourString + " to " + maxHourString)
+                        + minHourString + " to " + maxHourString)
                 .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
                 .setPositiveButton("Yes", (dialog, which) -> listener.onYesHoursClicked(minHour, maxHour));
         return builder;

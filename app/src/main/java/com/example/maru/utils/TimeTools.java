@@ -1,9 +1,6 @@
 package com.example.maru.utils;
 
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 public abstract class TimeTools {
 
     // FIELDS --------------------------------------------------------------------------------------
@@ -15,14 +12,15 @@ public abstract class TimeTools {
 
     /**
      * Returns a {@link String} that contains the time in specific format
-     * @param hour an integer that contains the hour [0 ; 24]
+     *
+     * @param hour   an integer that contains the hour [0 ; 24]
      * @param minute an integer that contains the minute [0 ; 60]
      * @return a {@link String} that contains the time in hh[SEPARATOR]mm
-     * @exception Exception throws when hour or minute is no correct
+     * @throws Exception throws when hour or minute is no correct
      */
     public static String convertHourAndMinuteToString(int hour, int minute) throws Exception {
-        String convertedString = ((hour < 10) ? "0" : "")   + hour +
-                TimeTools.SEPARATOR        +
+        String convertedString = ((hour < 10) ? "0" : "") + hour +
+                TimeTools.SEPARATOR +
                 ((minute < 10) ? "0" : "") + minute;
 
         // EXCEPTION
@@ -31,8 +29,8 @@ public abstract class TimeTools {
         }
 
 
-        return  ((hour < 10) ? "0" : "")   + hour +
-                TimeTools.SEPARATOR        +
+        return ((hour < 10) ? "0" : "") + hour +
+                TimeTools.SEPARATOR +
                 ((minute < 10) ? "0" : "") + minute;
     }
 
@@ -44,7 +42,7 @@ public abstract class TimeTools {
                 ((minute < 10) ? "0" : "") + minute;
 
         return ((hour < 10) ? "0" : "") + hour +
-                TimeTools.SEPARATOR     +
+                TimeTools.SEPARATOR +
                 ((minute < 10) ? "0" : "") + minute;
     }
 }

@@ -5,17 +5,14 @@ import android.widget.TimePicker;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.maru.R;
-import com.example.maru.utils.TimeTools;
 import com.example.maru.view.base.BaseActivity;
 import com.example.maru.view.base.BaseFragment;
-import com.example.maru.view.dialogFragment.AddHoursFilterFragment;
 import com.example.maru.view.dialogFragment.AddHoursFilterFragment.AddHoursFilterDialogListener;
-import com.example.maru.view.dialogFragment.AddRoomFilterFragment;
 import com.example.maru.view.dialogFragment.TimePickerFragmentListener;
 import com.example.maru.view.fragments.HoursFilterFragment;
 import com.example.maru.view.fragments.RoomFilterFragment;
 
-import static com.example.maru.view.dialogFragment.AddRoomFilterFragment.*;
+import static com.example.maru.view.dialogFragment.AddRoomFilterFragment.AddRoomFilterDialogListener;
 
 public class FilterActivity extends BaseActivity implements BaseFragment.FragmentListener, TimePickerFragmentListener, AddRoomFilterDialogListener, AddHoursFilterDialogListener {
 
@@ -104,6 +101,7 @@ public class FilterActivity extends BaseActivity implements BaseFragment.Fragmen
 
     /**
      * Selects the good filter thanks to the value in argument
+     *
      * @param choice an integer that contains the choice
      */
     private void selectFragmentToDisplay(final int choice) {
@@ -121,6 +119,7 @@ public class FilterActivity extends BaseActivity implements BaseFragment.Fragmen
 
     /**
      * Configures and shows the room filter fragment (see {@link RoomFilterFragment}
+     *
      * @param idOfFrameLayout an integer that contains the id value
      */
     private void configureAndShowRoomFilterFragment(final int idOfFrameLayout) {
@@ -139,6 +138,7 @@ public class FilterActivity extends BaseActivity implements BaseFragment.Fragmen
 
     /**
      * Configures and shows the hours filter fragment (see {@link HoursFilterFragment}
+     *
      * @param idOfFrameLayout an integer that contains the id value
      */
     private void configureAndShowHoursFilterFragment(final int idOfFrameLayout) {

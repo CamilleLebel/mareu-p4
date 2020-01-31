@@ -11,6 +11,7 @@ public class Room {
 
     /**
      * Constructor
+     *
      * @param id
      * @param name
      */

@@ -14,7 +14,7 @@ public class RoomViewModel extends ViewModel {
     private MeetingRepository mMeetingRepository;
     private Executor mExecutor;
 
-    public RoomViewModel(MeetingRepository meetingRepository, Executor executor){
+    public RoomViewModel(MeetingRepository meetingRepository, Executor executor) {
         this.mMeetingRepository = meetingRepository;
         this.mExecutor = executor;
     }

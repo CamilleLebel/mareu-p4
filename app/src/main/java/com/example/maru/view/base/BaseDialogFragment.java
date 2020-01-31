@@ -2,13 +2,12 @@ package com.example.maru.view.base;
 
 import androidx.fragment.app.DialogFragment;
 
-import com.example.maru.view.dialogFragment.AddHoursFilterFragment;
 import com.example.maru.view.dialogFragment.DeleteMeetingFragment.DeleteMeetingDialogListener;
 import com.example.maru.view.dialogFragment.TimePickerFragmentListener;
 
-import static com.example.maru.view.dialogFragment.AddHoursFilterFragment.*;
-import static com.example.maru.view.dialogFragment.AddRoomFilterFragment.*;
-import static com.example.maru.view.dialogFragment.AddMeetingFragment.*;
+import static com.example.maru.view.dialogFragment.AddHoursFilterFragment.AddHoursFilterDialogListener;
+import static com.example.maru.view.dialogFragment.AddMeetingFragment.AddMeetingDialogListener;
+import static com.example.maru.view.dialogFragment.AddRoomFilterFragment.AddRoomFilterDialogListener;
 
 public abstract class BaseDialogFragment extends DialogFragment {
 

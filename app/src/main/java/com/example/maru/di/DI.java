@@ -23,6 +23,7 @@ public abstract class DI {
 
     /**
      * Returns the only instance of {@link ApiService}
+     *
      * @return the only instance of {@link ApiService}
      */
     public static ApiService getApiService() {
@@ -37,7 +38,9 @@ public abstract class DI {
         return new MemberRepository(new DummyApiService());
     }
 
-    public static Executor provideExecutor(){ return Executors.newSingleThreadExecutor(); }
+    public static Executor provideExecutor() {
+        return Executors.newSingleThreadExecutor();
+    }
 
     public static ViewModelFactory provideViewModelFactory(Context context) {
         MeetingRepository meetingRepository = createMeetingRepository(context);
@@ -49,6 +52,7 @@ public abstract class DI {
     /**
      * Returns always a new instance on {@link ApiService}.
      * Useful for tests, so we ensure the context is clean.
+     *
      * @return a {@link ApiService}
      */
     @VisibleForTesting

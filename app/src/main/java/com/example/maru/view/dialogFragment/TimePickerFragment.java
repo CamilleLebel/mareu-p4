@@ -24,7 +24,8 @@ public class TimePickerFragment extends BaseDialogFragment implements TimePicker
 
     // CONSTRUCTORS --------------------------------------------------------------------------------
 
-    public TimePickerFragment() { }
+    public TimePickerFragment() {
+    }
 
     // METHODS -------------------------------------------------------------------------------------
 
@@ -80,6 +81,7 @@ public class TimePickerFragment extends BaseDialogFragment implements TimePicker
     }
 
     // ARGUMENTS ***********************************************************************************
+
     /**
      * Retrieves the argument
      */
@@ -94,8 +96,7 @@ public class TimePickerFragment extends BaseDialogFragment implements TimePicker
         // Initializes the callback field
         try {
             this.mTimePickerFragmentListener = (TimePickerFragmentListener) context;
-        }
-        catch (ClassCastException e){
+        } catch (ClassCastException e) {
             throw new ClassCastException(e.toString() + " must implement TimePickerFragmentListener");
         }
     }

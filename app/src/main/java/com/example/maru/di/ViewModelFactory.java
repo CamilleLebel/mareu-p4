@@ -13,8 +13,7 @@ import com.example.maru.viewModels.SharedViewModel;
 
 import java.util.concurrent.Executor;
 
-public class ViewModelFactory implements ViewModelProvider.Factory
-{
+public class ViewModelFactory implements ViewModelProvider.Factory {
     private final MeetingRepository mMeetingRepository;
     private final MemberRepository mMemberRepository;
     private final Executor executor;

@@ -1,22 +1,15 @@
 package com.example.maru.view.activities;
 
-import android.os.Bundle;
 import android.widget.TimePicker;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.example.maru.R;
-import com.example.maru.utils.TimeTools;
 import com.example.maru.view.base.BaseActivity;
 import com.example.maru.view.base.BaseFragment;
 import com.example.maru.view.dialogFragment.AddMeetingFragment;
 import com.example.maru.view.dialogFragment.TimePickerFragmentListener;
 import com.example.maru.view.fragments.CreationFragment;
-import com.example.maru.viewModels.SharedViewModel;
 
 
 public class CreationActivity extends BaseActivity implements BaseFragment.FragmentListener, TimePickerFragmentListener, AddMeetingFragment.AddMeetingDialogListener {

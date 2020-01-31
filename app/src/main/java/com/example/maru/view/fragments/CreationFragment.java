@@ -61,12 +61,13 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
     private RoomViewModel mRoomViewModel;
 
 
-    public  int mHourInSecond;
+    public int mHourInSecond;
     public final int ID_SEARCH_HOUR = 1;
 
     // CONSTRUCTORS --------------------------------------------------------------------------------
 
-    public CreationFragment() { }
+    public CreationFragment() {
+    }
 
     // METHODS -------------------------------------------------------------------------------------
 
@@ -217,8 +218,8 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
     private void configureRoomSpinner() {
         // Adapter
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
-                                                            android.R.layout.simple_spinner_item,
-                                                            this.mRoomViewModel.getRoomsName());
+                android.R.layout.simple_spinner_item,
+                this.mRoomViewModel.getRoomsName());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Spinner
@@ -237,7 +238,7 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
         mMembers.observe(getViewLifecycleOwner(), members -> mAdapter.updateData(members));
     }
 
-    private void configureViewModel(){
+    private void configureViewModel() {
         ViewModelFactory mViewModelFactory = DI.provideViewModelFactory(getActivity());
 
         this.mMemberViewModel = ViewModelProviders.of(this, mViewModelFactory).get(MemberViewModel.class);
@@ -270,6 +271,7 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
     }
 
     // ERROR MESSAGES ******************************************************************************
+
     /**
      * Configures and show the error message
      */

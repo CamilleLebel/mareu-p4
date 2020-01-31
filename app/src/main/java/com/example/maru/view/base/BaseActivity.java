@@ -16,7 +16,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     // METHODS -------------------------------------------------------------------------------------
 
     protected abstract int getActivityLayout();
+
     protected abstract Toolbar getToolBar();
+
     protected abstract void configureDesign();
 
     // ACTIVITY ************************************************************************************
@@ -51,9 +53,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * Adds a {@link Fragment} to the {@link android.app.Activity}
+     *
      * @param idFrameLayout an integer that corresponds to the id of a {@link android.widget.FrameLayout}
-     * @param fragment a instance of class which extends to {@link Fragment}
-     * @param <T> a type parameter section
+     * @param fragment      a instance of class which extends to {@link Fragment}
+     * @param <T>           a type parameter section
      */
     protected <T extends Fragment> void addFragment(int idFrameLayout, T fragment) {
         // Adds the transaction to create the fragment [FragmentManager -> FragmentTransaction -> int]
@@ -67,10 +70,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * Starts the another Activity with its request code
-     * @param context a {@link Context} that sends the {@link Intent}
-     * @param cls a {@link Class} that correspond to the launched {@link Activity}
+     *
+     * @param context     a {@link Context} that sends the {@link Intent}
+     * @param cls         a {@link Class} that correspond to the launched {@link Activity}
      * @param requestCode an integer that corresponds to the request code
-     * @param <T> a type parameter section
+     * @param <T>         a type parameter section
      */
     protected <T extends Activity> void startAnotherActivityForResult(Context context, Class<T> cls, int requestCode) {
         Intent intent = new Intent(context, cls);
@@ -80,11 +84,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * Starts the another Activity with its request code
-     * @param context a {@link Context} that sends the {@link Intent}
-     * @param cls a {@link Class} that correspond to the launched {@link Activity}
-     * @param args a {@link Bundle} that contains the saved data to send
+     *
+     * @param context     a {@link Context} that sends the {@link Intent}
+     * @param cls         a {@link Class} that correspond to the launched {@link Activity}
+     * @param args        a {@link Bundle} that contains the saved data to send
      * @param requestCode an integer that corresponds to the request code
-     * @param <T> a type parameter section
+     * @param <T>         a type parameter section
      */
     protected <T extends Activity> void startAnotherActivityForResult(Context context, Class<T> cls, Bundle args, int requestCode) {
         Intent intent = new Intent(context, cls);

@@ -18,10 +18,11 @@ public class Meeting implements Parcelable {
 
     /**
      * Constructor
-     * @param id id
-     * @param topic topic of the meeting
-     * @param hour hour that the meeting is starting
-     * @param room room of the meeting
+     *
+     * @param id     id
+     * @param topic  topic of the meeting
+     * @param hour   hour that the meeting is starting
+     * @param room   room of the meeting
      * @param member members of the meeting
      */
     public Meeting(int id, String topic, int hour, String room, String member) {

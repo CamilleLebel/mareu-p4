@@ -1,8 +1,5 @@
 package com.example.maru.service;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.example.maru.models.Meeting;
 import com.example.maru.models.Member;
 import com.example.maru.models.Room;
@@ -52,6 +49,7 @@ public abstract class DummyGenerator {
 
     /**
      * Generates the dummy meetings
+     *
      * @return a {@link List} of {@link Meeting}
      */
     public static List<Meeting> generatorOfDummyMeetings() {
@@ -60,6 +58,7 @@ public abstract class DummyGenerator {
 
     /**
      * Generates the dummy rooms
+     *
      * @return a {@link List} of {@link Room}
      */
     public static List<Room> generatorOfDummyRooms() {
@@ -68,6 +67,7 @@ public abstract class DummyGenerator {
 
     /**
      * Generates the dummy members
+     *
      * @return a {@link List} of {@link Member}
      */
     public static List<Member> generatorOfDummyMembers() {

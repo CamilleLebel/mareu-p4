@@ -15,10 +15,11 @@ public class Member {
 
     /**
      * Constructor
-     * @param id integer correspond to the id
+     *
+     * @param id        integer correspond to the id
      * @param firstName a string that contains the first name
-     * @param lastName a string that contains the last name
-     * @param email a string that contains the email
+     * @param lastName  a string that contains the last name
+     * @param email     a string that contains the email
      */
     public Member(int id, String firstName, String lastName, String email, String avatarUrl) {
         mId = id;

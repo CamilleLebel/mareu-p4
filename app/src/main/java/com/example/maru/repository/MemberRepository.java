@@ -3,7 +3,6 @@ package com.example.maru.repository;
 import android.util.Log;
 
 import com.example.maru.di.DI;
-import com.example.maru.models.Meeting;
 import com.example.maru.models.Member;
 import com.example.maru.service.ApiService;
 
@@ -35,7 +34,7 @@ public class MemberRepository {
     }
 
     public void addToSelectedMembers(Member member) {
-        if (mSelectedMembers.contains(member)){
+        if (mSelectedMembers.contains(member)) {
             return;
         }
         mSelectedMembers.add(member);

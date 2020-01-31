@@ -1,6 +1,5 @@
 package com.example.maru.view.adapters;
 
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.widget.ImageButton;
@@ -16,7 +15,6 @@ import com.example.maru.models.Meeting;
 import com.example.maru.utils.TimeTools;
 
 import java.lang.ref.WeakReference;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

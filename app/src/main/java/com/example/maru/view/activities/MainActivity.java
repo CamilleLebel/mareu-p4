@@ -1,27 +1,18 @@
 package com.example.maru.view.activities;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TimePicker;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import com.example.maru.R;
 import com.example.maru.models.Meeting;
 import com.example.maru.utils.ShowMessage;
-import com.example.maru.utils.TimeTools;
-import com.example.maru.view.adapters.MeetingAdapter;
 import com.example.maru.view.base.BaseActivity;
 import com.example.maru.view.base.BaseFragment;
 import com.example.maru.view.dialogFragment.AddMeetingFragment;
@@ -29,10 +20,6 @@ import com.example.maru.view.dialogFragment.DeleteMeetingFragment;
 import com.example.maru.view.dialogFragment.TimePickerFragmentListener;
 import com.example.maru.view.fragments.CreationFragment;
 import com.example.maru.view.fragments.MeetingFragment;
-import com.example.maru.viewModels.MeetingViewModel;
-import com.example.maru.viewModels.SharedViewModel;
-
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -142,8 +129,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.FragmentL
     public void onClickFromFragment(String message) {
         if (this.mCreationFragment == null) {
             this.startAnotherActivityForResult(this, CreationActivity.class, REQUEST_CODE_CREATION_ACTIVITY);
-        }
-        else {
+        } else {
             this.mMeetingFragment.updateRecyclerView(false);
         }
     }
@@ -183,6 +169,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.FragmentL
 
     /**
      * Configures and shows the main fragment (see {@link MeetingFragment}
+     *
      * @param idOfFrameLayout an integer that contains the id value
      */
     private void configureAndShowMainFragment(final int idOfFrameLayout) {

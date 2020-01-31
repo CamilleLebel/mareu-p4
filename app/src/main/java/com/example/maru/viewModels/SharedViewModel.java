@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 
-
 public class SharedViewModel extends ViewModel {
 
     private MutableLiveData<Integer> timeLiveData = new MutableLiveData<>();
@@ -13,15 +12,17 @@ public class SharedViewModel extends ViewModel {
     public void setTimeLiveData(int time) {
         timeLiveData.setValue(time);
     }
+
     public LiveData<Integer> getTimeLiveData() {
         return timeLiveData;
     }
 
     private MutableLiveData<Boolean> isFilter = new MutableLiveData<>();
 
-    public void setIsFilter (Boolean aBoolean) {
+    public void setIsFilter(Boolean aBoolean) {
         isFilter.setValue(aBoolean);
     }
+
     public LiveData<Boolean> getIsFilter() {
         if (isFilter == null) {
             isFilter = new MutableLiveData<>();
@@ -34,6 +35,7 @@ public class SharedViewModel extends ViewModel {
     public MutableLiveData<Integer> getMinTimeLiveData() {
         return minTimeLiveData;
     }
+
     public void setMinTimeLiveData(int minTime) {
         this.minTimeLiveData.setValue(minTime);
     }
@@ -43,6 +45,7 @@ public class SharedViewModel extends ViewModel {
     public MutableLiveData<Integer> getMaxTimeLiveData() {
         return maxTimeLiveData;
     }
+
     public void setMaxTimeLiveData(int maxTime) {
         this.maxTimeLiveData.setValue(maxTime);
     }

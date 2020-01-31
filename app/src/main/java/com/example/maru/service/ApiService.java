@@ -1,7 +1,5 @@
 package com.example.maru.service;
 
-import androidx.lifecycle.LiveData;
-
 import com.example.maru.models.Meeting;
 import com.example.maru.models.Member;
 import com.example.maru.models.Room;
@@ -17,12 +15,14 @@ public interface ApiService {
 
     /**
      * delete a {@link Meeting}
+     *
      * @param meeting The {@link Meeting} to delete
      */
     void deleteMeeting(Meeting meeting);
 
     /**
      * add a {@link Meeting}
+     *
      * @param meeting The {@link Meeting} to add
      */
     void addMeeting(Meeting meeting);

@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.example.maru.models.Meeting;
 import com.example.maru.view.base.BaseDialogFragment;
 

@@ -1,6 +1,5 @@
 package com.example.maru.view.fragments;
 
-import android.app.AlertDialog;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,9 +13,7 @@ import com.example.maru.di.ViewModelFactory;
 import com.example.maru.view.base.BaseFragment;
 import com.example.maru.view.dialogFragment.AddRoomFilterFragment;
 import com.example.maru.viewModels.MeetingViewModel;
-import com.example.maru.viewModels.MemberViewModel;
 import com.example.maru.viewModels.RoomViewModel;
-import com.example.maru.viewModels.SharedViewModel;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -38,7 +35,8 @@ public class RoomFilterFragment extends BaseFragment implements AddRoomFilterFra
     /**
      * Constructor
      */
-    public RoomFilterFragment() {}
+    public RoomFilterFragment() {
+    }
 
     // METHODS -------------------------------------------------------------------------------------
 
@@ -63,7 +61,7 @@ public class RoomFilterFragment extends BaseFragment implements AddRoomFilterFra
 
     // VIEWMODEL ***********************************************************************************
 
-    private void configureViewModel(){
+    private void configureViewModel() {
         ViewModelFactory mViewModelFactory = DI.provideViewModelFactory(getActivity());
 
         this.mMeetingViewModel = ViewModelProviders.of(this, mViewModelFactory).get(MeetingViewModel.class);
@@ -84,8 +82,10 @@ public class RoomFilterFragment extends BaseFragment implements AddRoomFilterFra
         // Spinner
         this.mRoomSpinner.setAdapter(adapter);
     }
+
     /**
      * Returns the current room of {@link Spinner}
+     *
      * @return a {@link String} that contains the current room of {@link Spinner}
      */
     private String getCurrentRoomOfSpinner() {
@@ -95,6 +95,7 @@ public class RoomFilterFragment extends BaseFragment implements AddRoomFilterFra
 
     /**
      * Returns a {@link RoomFilterFragment}
+     *
      * @return a {@link RoomFilterFragment}
      */
     public static RoomFilterFragment newInstance() {

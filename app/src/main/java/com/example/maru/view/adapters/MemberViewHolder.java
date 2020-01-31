@@ -12,8 +12,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.maru.R;
 import com.example.maru.models.Member;
-import com.example.maru.viewModels.MemberViewModel;
-import com.example.maru.viewModels.SharedViewModel;
 
 import java.lang.ref.WeakReference;
 
@@ -47,6 +45,7 @@ public class MemberViewHolder extends RecyclerView.ViewHolder {
 
     /**
      * Returns the layout value
+     *
      * @return an integer that contains the layout value
      */
     public static int getLayout() {

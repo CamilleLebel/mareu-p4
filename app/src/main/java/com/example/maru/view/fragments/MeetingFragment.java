@@ -1,12 +1,9 @@
 package com.example.maru.view.fragments;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -92,7 +89,7 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
 
         // RECYCLER VIEW
         this.mAdapter.updateData(isFilter ? this.mMeetingViewModel.getFilteredMeetings().getValue() :
-                                            this.mMeetingViewModel.getMeetings().getValue());
+                this.mMeetingViewModel.getMeetings().getValue());
 
         // FILTER FAB
         this.setVisibilityOfFilterFAB(isFilter);

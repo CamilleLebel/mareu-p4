@@ -9,15 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.example.maru.di.DI;
-import com.example.maru.di.ViewModelFactory;
-import com.example.maru.repository.MeetingRepository;
 import com.example.maru.view.View.FragmentView;
-import com.example.maru.view.fragments.CreationFragment;
 import com.example.maru.viewModels.DialogViewModel;
 import com.example.maru.viewModels.MeetingViewModel;
 import com.example.maru.viewModels.MemberViewModel;
