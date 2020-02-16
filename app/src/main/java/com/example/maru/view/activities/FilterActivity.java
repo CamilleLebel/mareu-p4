@@ -66,22 +66,20 @@ public class FilterActivity extends BaseActivity implements BaseFragment.Fragmen
 
     @Override
     public void onTimeSet(int id, TimePicker view, int hourOfDay, int minute) {
-        final String time;
-        try {
-            int hourInSecond = hourOfDay * 3600;
-            int minuteInSecond = minute * 60;
-            int timeInSecond = hourInSecond + minuteInSecond;
-//            time = TimeTools.convertHourAndMinuteToString(hourOfDay, minute);
-            this.mHoursFilterFragment.setTextById(id, timeInSecond);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        int hourInSecond = hourOfDay * 3600;
+        int minuteInSecond = minute * 60;
+        int timeInSecond = hourInSecond + minuteInSecond;
+        this.mHoursFilterFragment.setTextById(id, timeInSecond);
     }
+
+    // AddRoomFilterDialogListener  ****************************************************************
 
     @Override
     public void onYesRoomClicked(String roomName) {
         this.mRoomFilterFragment.onYesRoomClicked(roomName);
     }
+
+    // AddHoursFilterDialogListener  ***************************************************************
 
     @Override
     public void onYesHoursClicked(int minHour, int maxHour) {

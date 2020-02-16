@@ -67,8 +67,6 @@ public class MemberViewModel extends ViewModel {
     // TURN TO FALSE PREVIOUS SELECTED MEMBERS
 
     public void deleteAllSelectedMember() {
-
-
         mSelectedMembers = new ArrayList<>();
         mSelectedMembers = mMemberRepository.getSelectedMembers();
         mMemberRepository.resetSelectedMembers();
@@ -81,6 +79,7 @@ public class MemberViewModel extends ViewModel {
     }
 
     // GET THE SELECTED MEMBERS STRING
+
     private StringBuilder sb;
     public String getSelectedMembersToString() {
 

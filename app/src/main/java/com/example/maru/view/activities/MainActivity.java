@@ -152,17 +152,11 @@ public class MainActivity extends BaseActivity implements BaseFragment.FragmentL
 
     @Override
     public void onTimeSet(int id, TimePicker view, int hourOfDay, int minute) {
-        final String time;
-        try {
-            int hourInSecond = hourOfDay * 3600;
-            int minuteInSecond = minute * 60;
-            int timeInSecond = hourInSecond + minuteInSecond;
-            time = String.valueOf(timeInSecond);
-//            time = TimeTools.convertHourAndMinuteToString(hourOfDay, minute);
-            this.mCreationFragment.setTextById(id, timeInSecond);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        int hourInSecond = hourOfDay * 3600;
+        int minuteInSecond = minute * 60;
+        int timeInSecond = hourInSecond + minuteInSecond;
+
+        this.mCreationFragment.setTextById(id, timeInSecond);
     }
 
     // FRAGMENTS ***********************************************************************************
@@ -189,9 +183,8 @@ public class MainActivity extends BaseActivity implements BaseFragment.FragmentL
         // Creates a Fragment [FragmentManager -> Fragment]
         this.mCreationFragment = (CreationFragment) getSupportFragmentManager().findFragmentById(idOfFrameLayout);
 
-        // If the fragment is not displayed
         if (this.mCreationFragment == null && findViewById(R.id.activity_main_second_frame_layout) != null) {
-            // Creates the main fragment
+
             this.mCreationFragment = CreationFragment.newInstance();
 
             this.addFragment(idOfFrameLayout, this.mCreationFragment);

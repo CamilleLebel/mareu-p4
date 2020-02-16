@@ -58,7 +58,7 @@ public class MemberViewModelTest {
 
         mMemberViewModel = new MemberViewModel(mMemberRepository, executor);
 
-
+    //init list de members
     }
 
     @Test
@@ -93,25 +93,6 @@ public class MemberViewModelTest {
         mMemberViewModel.deleteFromSelectedMembers(member);
         verify(selectedMembersObserver).onChanged(mMemberRepository.getSelectedMembers());
         assertEquals(mMemberRepository.getSelectedMembers(), mMemberViewModel.getSelectedLDMembers().getValue());
-    }
-
-
-    @Test
-    public void memberViewModel_getSelectedMembersToString() {
-        mMemberViewModel.getSelectedLDMembers().observeForever(selectedMembersObserver);
-//        mMemberViewModel.resetSelectedMembers();
-//        verify(selectedMembersObserver).onChanged(mMemberRepository.getSelectedMembers());
-
-//        mMemberViewModel.addToSelectedMembers(new Member(420, "Camille", "Lebel", "camille@lamzone.com", null));
-        mMemberViewModel.addToSelectedMembers(mMemberRepository.getMembers().get(1));
-//
-        verify(selectedMembersObserver).onChanged(mMemberViewModel.getSelectedLDMembers().getValue());
-//
-        verify(selectedMembersObserver).onChanged(mMemberRepository.getSelectedMembers());
-        String s = mMemberRepository.getMembers().get(1).getEmail();
-        String s1 = mMemberViewModel.getSelectedMembersToString();
-
-        assertEquals(s, s1);
     }
 
     @Test

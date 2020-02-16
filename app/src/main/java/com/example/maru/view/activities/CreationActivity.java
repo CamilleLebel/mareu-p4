@@ -60,19 +60,12 @@ public class CreationActivity extends BaseActivity implements BaseFragment.Fragm
 
     @Override
     public void onTimeSet(int id, TimePicker view, int hourOfDay, int minute) {
-        final String time;
-        try {
-            int hourInSecond = hourOfDay * 3600;
-            int minuteInSecond = minute * 60;
-            int timeInSecond = hourInSecond + minuteInSecond;
-            time = String.valueOf(timeInSecond);
-//            time = TimeTools.convertHourAndMinuteToString(hourOfDay, minute);
-            this.mCreationFragment.setTextById(id, timeInSecond);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+        int hourInSecond = hourOfDay * 3600;
+        int minuteInSecond = minute * 60;
+        int timeInSecond = hourInSecond + minuteInSecond;
 
+        this.mCreationFragment.setTextById(id, timeInSecond);
+    }
 
     // FRAGMENTS ***********************************************************************************
 

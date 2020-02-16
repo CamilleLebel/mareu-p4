@@ -26,6 +26,8 @@ public class MeetingViewModel extends ViewModel {
         this.mExecutor = executor;
     }
 
+    // GET MEETINGS
+
     public LiveData<List<Meeting>> getMeetings() {
         if (mMeetings == null) {
             mMeetings = new MutableLiveData<>();
@@ -34,6 +36,8 @@ public class MeetingViewModel extends ViewModel {
 
         return mMeetings;
     }
+
+    // GET FILTERED MEETINGS
 
     public LiveData<List<Meeting>> getFilteredMeetings() {
         if (mFilteredMeetingsLD == null) {
@@ -44,12 +48,16 @@ public class MeetingViewModel extends ViewModel {
         return mFilteredMeetingsLD;
     }
 
+    // DELETE MEETING
+
     public void deleteMeeting(Meeting meeting, Boolean isFilter) {
         if (isFilter) {
             mFilteredMeetings.remove(meeting);
         }
         mExecutor.execute(() -> mMeetingRepository.deleteMeeting(meeting));
     }
+
+    // ADD MEETING
 
     public String addMeeting(String topic, int hour, String room, String member) {
         Meeting meeting = new Meeting(this.mMeetingRepository.getMeetings().size() + 1,
@@ -61,22 +69,22 @@ public class MeetingViewModel extends ViewModel {
         return topic;
     }
 
-    public List<Meeting> filterPerRoom(String roomName) {
+    // FILTER PER ROOM
+
+    public void filterPerRoom(String roomName) {
         List<Meeting> filterMeetings;
 
         filterMeetings = mMeetingRepository.filterPerRoom(roomName);
         mFilteredMeetings = filterMeetings;
-
-        return mFilteredMeetings;
     }
 
-    public List<Meeting> filterPerHours(int minHour, int maxHour) {
+    // FILTER PER HOURS
+
+    public void filterPerHours(int minHour, int maxHour) {
         List<Meeting> filterMeetings;
 
         filterMeetings = mMeetingRepository.filterPerHours(minHour, maxHour);
         mFilteredMeetings = filterMeetings;
-
-        return mFilteredMeetings;
     }
 }
 

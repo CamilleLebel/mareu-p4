@@ -36,7 +36,6 @@ public abstract class BaseFragment extends Fragment implements FragmentView {
     protected MemberViewModel mMemberViewModel;
     protected SharedViewModel mSharedViewModel;
 
-
     // CONSTRUCTORS --------------------------------------------------------------------------------
 
     public BaseFragment() {
@@ -49,7 +48,6 @@ public abstract class BaseFragment extends Fragment implements FragmentView {
     protected abstract void configureDesign();
 
     // FRAGMENT ************************************************************************************
-
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -98,7 +96,4 @@ public abstract class BaseFragment extends Fragment implements FragmentView {
             throw new ClassCastException(e.toString() + " must implement FragmentListener");
         }
     }
-
-    // VIEWMODEL ***********************************************************************************
-
 }

@@ -37,7 +37,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.configureDesign();
     }
 
-
     // TOOL BAR ************************************************************************************
 
     /**

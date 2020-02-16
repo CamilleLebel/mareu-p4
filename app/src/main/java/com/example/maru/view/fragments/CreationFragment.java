@@ -170,6 +170,8 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
         }
     }
 
+    // CHECK IF THE MEETING CAN BE CREATE
+
     private boolean checkForCreateMeeting() {
         List<Member> selectedMembers = this.mMemberViewModel.getSelectedLDMembers().getValue();
 
@@ -237,6 +239,8 @@ public class CreationFragment extends BaseFragment implements MemberAdapter.Memb
         LiveData<List<Member>> mMembers = mMemberViewModel.getMembers();
         mMembers.observe(getViewLifecycleOwner(), members -> mAdapter.updateData(members));
     }
+
+    // VIEW MODEL***********************************************************************************
 
     private void configureViewModel() {
         ViewModelFactory mViewModelFactory = DI.provideViewModelFactory(getActivity());

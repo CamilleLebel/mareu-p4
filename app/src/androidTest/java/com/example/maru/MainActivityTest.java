@@ -82,6 +82,7 @@ public class MainActivityTest {
                     .perform(actionOnItemAtPosition(0, new ButtonViewAction(R.id.item_meeting_iv_delete)));
             onView(withText("YES")).perform(click());
         }
+        //delete x1
 
         // RECYCLER VIEW: Checks if the size is zero
         onView(withId(R.id.fragment_meeting_recycler_view)).check(withItemCount(0));

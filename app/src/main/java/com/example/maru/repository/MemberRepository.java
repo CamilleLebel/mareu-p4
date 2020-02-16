@@ -25,9 +25,6 @@ public class MemberRepository {
     }
 
     public void addToSelectedMembers(Member member) {
-//        if (mSelectedMembers.contains(member)) {
-//            return;
-//        }
         mSelectedMembers.add(member);
         member.setSelected(true);
     }

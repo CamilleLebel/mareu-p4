@@ -10,15 +10,20 @@ import java.util.List;
 
 public class MeetingRepository {
 
+    // FIELDS --------------------------------------------------------------------------------------
+
     private ApiService mApiService;
     private List<Meeting> mMeetings;
     private List<Meeting> mFilteredMeetings;
 
+    // CONSTRUCTOR ---------------------------------------------------------------------------------
 
     public MeetingRepository(ApiService service) {
         mApiService = DI.getApiService();
         mMeetings = mApiService.getMeetings();
     }
+
+    // METHODS -------------------------------------------------------------------------------------
 
     public List<Meeting> getMeetings() {
         return mMeetings;

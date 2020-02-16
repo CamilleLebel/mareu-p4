@@ -24,6 +24,4 @@ public abstract class BaseDialogFragment extends DialogFragment {
     public BaseDialogFragment() {
     }
 
-    // METHODS -------------------------------------------------------------------------------------
-
 }
