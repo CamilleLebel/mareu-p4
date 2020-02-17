@@ -75,7 +75,10 @@ public class DeleteMeetingFragment extends BaseDialogFragment {
         builder.setTitle("Warning !")
                 .setMessage("Do you want to delete this Meeting: " + meeting.getTopic() + " ?")
                 .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
-                .setPositiveButton("Yes", (dialog, which) -> listener.onYesClicked(meeting));
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    listener.onYesClicked(meeting);
+                    dialog.dismiss();
+                });
         return builder;
     }
 }

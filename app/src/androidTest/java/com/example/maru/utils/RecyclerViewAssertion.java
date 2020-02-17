@@ -58,7 +58,7 @@ public class RecyclerViewAssertion implements ViewAssertion {
      * @param matcher a {@link Matcher} of {@link Integer}
      * @return a {@link RecyclerViewAssertion}
      */
-    public static RecyclerViewAssertion withItemCount(Matcher<Integer> matcher) {
+    private static RecyclerViewAssertion withItemCount(Matcher<Integer> matcher) {
         return new RecyclerViewAssertion(matcher);
     }
 }

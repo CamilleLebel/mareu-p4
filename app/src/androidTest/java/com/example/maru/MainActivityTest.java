@@ -1,13 +1,17 @@
 package com.example.maru;
 
+import android.media.MediaPlayer;
+
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
+import com.example.maru.models.Meeting;
 import com.example.maru.models.Room;
 import com.example.maru.service.DummyGenerator;
 import com.example.maru.utils.ButtonViewAction;
 import com.example.maru.view.activities.MainActivity;
+import com.example.maru.view.dialogFragment.DeleteMeetingFragment;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -66,13 +70,14 @@ public class MainActivityTest {
     @Before
     public void setUp() {
         this.mMainActivity = this.mActivityRule.getActivity();
+
         assertThat(this.mMainActivity, notNullValue());
     }
 
     // MEETING *************************************************************************************
 
     @Test
-    public void mainActivity_D_deleteAction_shouldRemoveAllItems() {
+    public void mainActivity_D_deleteAction_shouldRemoveOneItem() {
         // TEXT VIEW: Checks if displayed
         onView(withId(R.id.fragment_meeting_tv_no_data)).check(matches(not((isDisplayed()))));
 
@@ -82,12 +87,11 @@ public class MainActivityTest {
                     .perform(actionOnItemAtPosition(0, new ButtonViewAction(R.id.item_meeting_iv_delete)));
             onView(withText("YES")).perform(click());
         }
-        //delete x1
 
         // RECYCLER VIEW: Checks if the size is zero
+
         onView(withId(R.id.fragment_meeting_recycler_view)).check(withItemCount(0));
 
-        // TEXT VIEW: Checks if displayed
         onView(withId(R.id.fragment_meeting_tv_no_data)).check(matches(isDisplayed()));
     }
 
@@ -140,10 +144,11 @@ public class MainActivityTest {
         //  - Deletes the last item
         //  - Checks the size
         onView(withId(R.id.fragment_meeting_recycler_view)).check(matches(hasChildCount(SIZE_MEETINGS + 1)))
-                .perform(actionOnItemAtPosition(SIZE_MEETINGS - 1, new ButtonViewAction(R.id.item_meeting_iv_delete)));
-        onView(withText("YES")).perform(click());
-        onView(withId(R.id.fragment_meeting_recycler_view))
-                .check(matches(hasChildCount(SIZE_MEETINGS)));
+                .perform(actionOnItemAtPosition(SIZE_MEETINGS, new ButtonViewAction(R.id.item_meeting_iv_delete)));
+
+        onView(withText("Yes")).perform(click());
+
+        onView(withId(16908313)).perform(click());
     }
 
     // FILTER **************************************************************************************
@@ -200,12 +205,6 @@ public class MainActivityTest {
 
         // RECYCLER VIEW: Checks the size
         onView(withId(R.id.fragment_meeting_recycler_view)).check(matches(not(hasChildCount(SIZE_MEETINGS))));
-
-        // BUTTON: Clicks
-        onView(withId(R.id.fragment_meeting_fab_filter)).perform(click());
-
-        // RECYCLER VIEW: Checks the size
-        onView(withId(R.id.fragment_meeting_recycler_view)).check(matches(hasChildCount(SIZE_MEETINGS)));
     }
 
     @Test
@@ -258,11 +257,6 @@ public class MainActivityTest {
         // RECYCLER VIEW: Checks the size
         onView(withId(R.id.fragment_meeting_recycler_view)).check(matches(not(hasChildCount(SIZE_MEETINGS))));
 
-        // BUTTON: Clicks
-        onView(withId(R.id.fragment_meeting_fab_filter)).perform(click());
-
-        // RECYCLER VIEW: Checks the size
-        onView(withId(R.id.fragment_meeting_recycler_view)).check(matches(hasChildCount(SIZE_MEETINGS)));
     }
 
 }

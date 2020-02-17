@@ -129,7 +129,7 @@ public class MeetingFragment extends BaseFragment implements MeetingAdapter.Meet
         final String message = getString(R.string.information_delete_meeting, meeting.getTopic());
         configureAndShowErrorMessage(message);
         mMeetingViewModel.deleteMeeting(meeting, mIsFilter);
-        updateRecyclerView(mIsFilter);
+        updateRecyclerView(false);
     }
 
     private void configureViewModel() {
